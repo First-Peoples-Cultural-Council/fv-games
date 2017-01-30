@@ -1,7 +1,7 @@
 webpackJsonp([0],[
 /* 0 */,
 /* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 class Boot {
@@ -22,12 +22,12 @@ class Boot {
     }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = Boot;
+/* harmony default export */ exports["a"] = Boot;
 
 
-/***/ }),
+/***/ },
 /* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 class GameOver {
@@ -42,12 +42,12 @@ class GameOver {
     }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = GameOver;
+/* harmony default export */ exports["a"] = GameOver;
 
 
-/***/ }),
+/***/ },
 /* 3 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 class GameTitle {
@@ -62,12 +62,12 @@ class GameTitle {
     }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = GameTitle;
+/* harmony default export */ exports["a"] = GameTitle;
 
 
-/***/ }),
+/***/ },
 /* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 class Main {
@@ -561,11 +561,11 @@ class Main {
     }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = Main;
+/* harmony default export */ exports["a"] = Main;
 
-/***/ }),
+/***/ },
 /* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 "use strict";
 
@@ -652,15 +652,15 @@ class Preload {
     }
 }
 
-/* harmony default export */ __webpack_exports__["a"] = Preload;
+/* harmony default export */ exports["a"] = Preload;
 
 
-/***/ }),
+/***/ },
 /* 6 */,
 /* 7 */,
 /* 8 */,
 /* 9 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
@@ -684,9 +684,9 @@ if(false) {
 	module.hot.dispose(function() { update(); });
 }
 
-/***/ }),
+/***/ },
 /* 10 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(11)();
 // imports
@@ -698,9 +698,9 @@ exports.push([module.i, "body {\n    margin:0;\n    padding:0;\n}\n\ncanvas {\n 
 // exports
 
 
-/***/ }),
+/***/ },
 /* 11 */
-/***/ (function(module, exports) {
+/***/ function(module, exports) {
 
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
@@ -754,13 +754,13 @@ module.exports = function() {
 };
 
 
-/***/ }),
+/***/ },
 /* 12 */,
 /* 13 */,
 /* 14 */,
 /* 15 */,
 /* 16 */
-/***/ (function(module, exports) {
+/***/ function(module, exports) {
 
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
@@ -1010,12 +1010,11 @@ function updateLink(linkElement, obj) {
 }
 
 
-/***/ }),
+/***/ },
 /* 17 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__style_css__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__style_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__style_css__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__js_boot__ = __webpack_require__(1);
@@ -1047,5 +1046,5 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     game.state.start("Boot");
 })()
 
-/***/ })
+/***/ }
 ],[17]);
