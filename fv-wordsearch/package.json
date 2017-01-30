@@ -1,8 +1,8 @@
 {
-  "name": "webpack-demo",
+  "name": "fv-wordsearch",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "www/bundle.js",
   "scripts": {
     "webpack": "webpack",
     "webpack-dev-server": "webpack-dev-server --progress --colors --content-base www/",

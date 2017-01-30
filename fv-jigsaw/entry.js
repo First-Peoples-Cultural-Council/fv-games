@@ -9,7 +9,7 @@ import Main from './js/main';
 import GameOver from './js/gameover';
 
 
-(()=>{
+export default () => {
     const game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game');
     //Add all states
     game.state.add("Boot", Boot);
@@ -20,4 +20,4 @@ import GameOver from './js/gameover';
 
     //Start the first state
     game.state.start("Boot");
-})()
+}

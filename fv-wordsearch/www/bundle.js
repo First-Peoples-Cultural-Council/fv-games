@@ -1,4 +1,14 @@
-webpackJsonp([0],[
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define("FvWordSearch", [], factory);
+	else if(typeof exports === 'object')
+		exports["FvWordSearch"] = factory();
+	else
+		root["FvWordSearch"] = factory();
+})(this, function() {
+return webpackJsonpFvWordSearch([0],[
 /* 0 */,
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
@@ -1032,9 +1042,11 @@ function updateLink(linkElement, obj) {
 
 
 
+let game = null;
 
-(()=>{
-    const game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game');
+const init = () => {
+
+    game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game');
     //Add all states
     game.state.add("Boot", __WEBPACK_IMPORTED_MODULE_1__js_boot__["a" /* default */]);
     game.state.add("Preload", __WEBPACK_IMPORTED_MODULE_2__js_preload__["a" /* default */]);
@@ -1044,7 +1056,18 @@ function updateLink(linkElement, obj) {
 
     //Start the first state
     game.state.start("Boot");
-})()
+
+}
+/* harmony export (immutable) */ exports["init"] = init;
+
+
+const destroy = () => {
+
+}
+/* harmony export (immutable) */ exports["destroy"] = destroy;
+
+
 
 /***/ }
 ],[17]);
+});

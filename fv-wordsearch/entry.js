@@ -8,9 +8,11 @@ import GameTitle from './js/gametitle';
 import Main from './js/main';
 import GameOver from './js/gameover';
 
+let game = null;
 
-(()=>{
-    const game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game');
+export const init = () => {
+
+    game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game');
     //Add all states
     game.state.add("Boot", Boot);
     game.state.add("Preload", Preload);
@@ -20,4 +22,9 @@ import GameOver from './js/gameover';
 
     //Start the first state
     game.state.start("Boot");
-})()
+
+}
+
+export const destroy = () => {
+
+}
