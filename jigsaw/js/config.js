@@ -28,7 +28,7 @@ let gameConfig = {
 export default {
 
     setConfig:(config) => {
-        gameConfig = {...config};
+        gameConfig = Object.assign({}, config, gameConfig);
     },
 
     getConfig:() => {

@@ -11,7 +11,7 @@ let game = false;
 
 export default {
 
-    init:(containerElement) => {
+    init:(containerElement, gameConfig) => {
 
         if(game === false) {
             game = new Phaser.Game(800, 600, Phaser.CANVAS, containerElement);
