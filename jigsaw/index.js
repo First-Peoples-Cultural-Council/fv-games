@@ -1,5 +1,4 @@
 //Styles
-import './style.css';
 
 //Scenes
 import Boot from './js/boot';
