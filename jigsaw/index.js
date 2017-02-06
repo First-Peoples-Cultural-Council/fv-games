@@ -6,18 +6,19 @@ import Preload from './js/preload';
 import GameTitle from './js/gametitle';
 import Main from './js/main';
 import GameOver from './js/gameover';
-import gameConfig from './js/config';
+import GameConfig from './js/config';
+
 
 let game = false;
 
 export default {
 
-    init:(containerElement, gameConfig) => {
+    init:(containerElement, config) => {
 
         if(game === false) {
 
             //Set Game Config
-            gameConfig.setConfig(gameConfig);
+            GameConfig.setConfig(config);
 
             //Start Game
             game = new Phaser.Game(800, 600, Phaser.CANVAS, containerElement);
