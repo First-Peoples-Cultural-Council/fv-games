@@ -1,13 +1,16 @@
+import configManager from './config';
+
 class Boot {
 
     init()
     {
+        this.config = configManager.getConfig();
         this.game.stage.backgroundColor = "#FFFFFF";
     }
 
     preload(){
-        this.game.load.image('loading',  'assets/preloader/loading.png');
-        this.game.load.image('brand',    'assets/preloader/logo.png');
+        this.game.load.image('loading',  this.config.images.preloaderLoading);
+        this.game.load.image('brand',    this.config.images.preloaderLogo);
     }
 
     create(){

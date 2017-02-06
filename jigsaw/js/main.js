@@ -63,7 +63,6 @@ class Main {
         //  pieces (each one a canvas). You can log out the data object to see its contents.
         var data = bmd.jigsawCut(this.puzzleWidth, this.puzzleHeight, this.lineWidth, this.lineStyle);
 
-        console.log(data);
         //  A Group that all the jigsaw pieces will be put in.
         this.pieces = this.add.group();
 

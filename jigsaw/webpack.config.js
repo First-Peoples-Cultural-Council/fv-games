@@ -10,7 +10,7 @@ const p2 = path.join(phaserModule, 'build/custom/p2.js')
 
 module.exports = {
     entry:{
-        app:"./index.js",
+        app:"./entry.js",
         vendor:['pixi', 'p2', 'phaser']
     },
     output:{
@@ -22,6 +22,9 @@ module.exports = {
     ],
     module:{
         rules:[
+            { 
+                test: /\.js$/, exclude: /node_modules/, use: ['babel-loader'] 
+            },
             {
                 test:/\.css$/,
                 use:['style-loader', 'css-loader']
