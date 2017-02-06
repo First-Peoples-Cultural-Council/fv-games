@@ -6,6 +6,7 @@ import Preload from './js/preload';
 import GameTitle from './js/gametitle';
 import Main from './js/main';
 import GameOver from './js/gameover';
+import gameConfig from './js/config';
 
 let game = false;
 
@@ -14,6 +15,10 @@ export default {
     init:(containerElement, gameConfig) => {
 
         if(game === false) {
+            
+            //Set Game Config
+            gameConfig.setConfig(gameConfig);
+
             game = new Phaser.Game(800, 600, Phaser.CANVAS, containerElement);
             game.state.add("Boot", Boot);
             game.state.add("Preload", Preload);
