@@ -15,10 +15,11 @@ export default {
     init:(containerElement, gameConfig) => {
 
         if(game === false) {
-            
+
             //Set Game Config
             gameConfig.setConfig(gameConfig);
 
+            //Start Game
             game = new Phaser.Game(800, 600, Phaser.CANVAS, containerElement);
             game.state.add("Boot", Boot);
             game.state.add("Preload", Preload);

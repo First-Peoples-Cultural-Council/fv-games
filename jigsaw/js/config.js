@@ -1,4 +1,4 @@
-let gameConfig = {
+let defaultGameConfig = {
 
     libs:{
         bitmapJigsawScript:'libs/BitmapDataJigsawCut.js'        
@@ -25,10 +25,12 @@ let gameConfig = {
 
 };
 
+let gameConfig = {};
+
 export default {
 
     setConfig:(config) => {
-        gameConfig = Object.assign({}, config, gameConfig);
+        gameConfig = Object.assign({}, defaultGameConfig, config, gameConfig);
     },
 
     getConfig:() => {
