@@ -11,10 +11,10 @@ let game = false;
 
 export default {
 
-    init:() => {
+    init:(containerElement) => {
 
         if(game === false) {
-            game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game');
+            game = new Phaser.Game(800, 600, Phaser.CANVAS, containerElement);
             game.state.add("Boot", Boot);
             game.state.add("Preload", Preload);
             game.state.add("GameTitle", GameTitle);
