@@ -7,8 +7,6 @@ const phaser = path.join(phaserModule, 'build/custom/phaser-split.js')
 const pixi = path.join(phaserModule, 'build/custom/pixi.js')
 const p2 = path.join(phaserModule, 'build/custom/p2.js')
 
-const gameName = 'FvWordSearch';
-
 
 module.exports = {
     entry:{
@@ -17,16 +15,16 @@ module.exports = {
     },
     output:{
         path:__dirname + '/www/',
-        filename:"bundle.js",
-        library:gameName,
-        libraryTarget:"umd",
-        umdNamedDefine:true
+        filename:"bundle.js"
     },
     plugins:[
         new webpack.optimize.CommonsChunkPlugin({  name: 'vendor', minChunks: Infinity, filename: 'vendor.bundle.js'})
     ],
     module:{
         rules:[
+            { 
+                test: /\.js$/, exclude: /node_modules/, use: ['babel-loader'] 
+            },
             {
                 test:/\.css$/,
                 use:['style-loader', 'css-loader']

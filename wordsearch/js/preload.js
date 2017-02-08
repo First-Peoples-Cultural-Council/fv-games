@@ -1,8 +1,11 @@
+import configManager from './config';
 
 class Preload {
 
     init()
     {
+        this.config = configManager.getConfig();
+
         this.loadingBar = this.game.make.sprite(this.game.world.centerX , 500, "loading");
         this.logo       = this.game.make.sprite(this.game.world.centerX, 250, 'brand');
         this.status     = this.game.make.text(this.game.world.centerX, 450, 'Loading...', {fill: 'black'});
@@ -26,17 +29,18 @@ class Preload {
         this.game.add.existing(this.status);
         this.game.load.setPreloadSprite(this.loadingBar);
 
+        const config = this.config;
 
-        this.load.script('wordfind', 'libs/wordfind.js');
-        this.load.path = 'assets/game/';
-        this.load.bitmapFont('azo');
+        this.load.script('wordfind', config.libs.wordFindScript);
+        this.load.bitmapFont('azo', config.images.azoFontImage, config.images.azoFontXml);
 
         var _this = this;
+
+        this.load.path = config.images.letters;
 
         this.letters.forEach(function(letter) {
             _this.load.spritesheet(letter.toLowerCase(), letter + '.png', 100, 100);
         });
-
 
 
     }

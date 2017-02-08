@@ -1,15 +1,17 @@
+import configManager from './config';
+
 class Main {
 
     init(){
+
+        this.config = configManager.getConfig();
 
         //  This is your word list. Add or remove any words you like in here.
         //  The words mustn't contain any spaces or numbers.
 
         //  The shorter the array, the larger the letter tiles will scale in-game.
 
-        this.words = ['atari', 'firstvoices', 'canada', 'vancouver', 'spectrum', 'nintendo',
-                    'sega', 'playstation', 'xbox', 'coleco', 'retro', 'superfamicom',
-                    'nes', 'sonic', 'mario', 'masterchief', 'msx', 'gameboy', 'jaguar'];
+        this.words = this.config.words;
 
         this.letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
