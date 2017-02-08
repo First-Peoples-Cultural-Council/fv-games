@@ -1,3 +1,4 @@
+import configManager from './config';
 
 class Preload {
 
@@ -6,6 +7,8 @@ class Preload {
      */
     init()
     {
+        this.config = configManager.getConfig();
+
         this.loadingBar = this.game.make.sprite(this.game.world.centerX , 500, "loading");
         this.logo       = this.game.make.sprite(this.game.world.centerX, 250, 'brand');
         this.status     = this.game.make.text(this.game.world.centerX, 450, 'Loading...', {fill: 'black'});
@@ -28,6 +31,8 @@ class Preload {
     preload()
     {
 
+        const config = this.config; 
+
         this.game.add.existing(this.logo).scale.setTo(0.5);
         this.game.add.existing(this.loadingBar);
         this.game.add.existing(this.status);
@@ -38,22 +43,35 @@ class Preload {
         //  packages your games together, then I would suggest rolling these 4 files into
         //  that instead, rather than loading them at run-time like here.
 
-        this.load.path = 'libs/';
-
-        this.load.script('BitmapDataFloodFill');
-        this.load.script('FileSaver');
-        this.load.script('Blob');
-        this.load.script('CanvasToBlob');
+        this.load.script('BitmapDataFloodFill', config.libs.bitmapDataFloodFill );
+        this.load.script('FileSaver', config.libs.fileSaver );
+        this.load.script('Blob', config.libs.blob );
+        this.load.script('CanvasToBlob', config.libs.canvasToBlob);
 
         //  Load in the assets. There is a color swatch, some icons and a paper texture.
         //  This is all just the template UI. The pictures and thumbnails are the things
         //  that are actually colored in.
 
-        this.load.path = 'assets/game/';
+        this.load.images(['swatch', 'selected', 'print', 'save'],[
+            config.images.swatch,
+            config.images.selected,
+            config.images.print,
+            config.images.save,
+        ]);
 
-        this.load.images(['swatch', 'selected', 'paper', 'print', 'save']);
-        this.load.images(['picture1', 'picture2', 'picture3', 'picture4']);
-        this.load.images(['thumb1', 'thumb2', 'thumb3', 'thumb4']);
+        this.load.images(['picture1', 'picture2', 'picture3', 'picture4'],[
+            config.images.picture1,
+            config.images.picture2,
+            config.images.picture3,
+            config.images.picture4
+        ]);
+
+        this.load.images(['thumb1', 'thumb2', 'thumb3', 'thumb4'],[
+            config.images.thumb1,
+            config.images.thumb2,
+            config.images.thumb3,
+            config.images.thumb4
+        ]);
 
     }
 
