@@ -13,7 +13,7 @@ class Main {
 
         this.words = this.config.words;
 
-        this.letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+        this.letters = this.config.letters;
 
         this.puzzle = null;
         this.solution = null;
@@ -46,6 +46,37 @@ class Main {
         this.firstLetter = null;
         this.endLetter = null;
         this.foundWords = [];
+
+
+    }
+    preload()
+    {
+        const letters = this.letters;
+        const letterCount = letters.length;
+        for(let i = 0; i < letterCount; i++)
+        {
+            let letter = letters[i];
+            let letterLowercase = letter.toLowerCase();
+
+            let tileImage = this.cache.getImage('tile');
+            let tileImageBlockWidth = tileImage.width / 2;
+            let tileImageBlockHeight = tileImage.height / 2;
+
+            let bitmap = this.add.bitmapData(tileImage.width, tileImage.height);
+            bitmap.clear();
+
+            let context = bitmap.context;
+            context.drawImage(tileImage, 0,0, tileImage.width, tileImage.height);
+            context.font = "bold 70px Arial";
+            context.textAlign = "center";
+            context.textBaseline = "middle"
+            context.fillText(letter,tileImageBlockWidth / 2 ,tileImage.height / 2);
+            context.fillText(letter,tileImageBlockWidth + (tileImageBlockWidth / 2) ,tileImage.height / 2);
+
+            let letterBitmapData = bitmap.canvas.toDataURL();
+
+            this.load.spritesheet(letterLowercase, letterBitmapData, this.tileWidth, this.tileHeight);
+        }
 
     }
 
@@ -158,7 +189,9 @@ class Main {
         this.solution.forEach(function(entry) {
 
             //  One BitmapText per word (so we can change their color when found)
-            _this.wordList[entry.word] = _this.add.bitmapText(500, y, 'azo', entry.word, 28);
+            var style = { font: "bold 28px Arial", autoUpperCase:true, fill: "#FFFFFF" };
+            //  One BitmapText per word (so we can change their color when found)
+            _this.wordList[entry.word] = _this.add.text(500, y, entry.word.toUpperCase(), style);
             _this.wordList[entry.word].right = 780;
             y += 28;
 

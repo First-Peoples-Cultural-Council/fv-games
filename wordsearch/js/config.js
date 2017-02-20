@@ -1,18 +1,19 @@
 let defaultGameConfig = {
 
     libs:{
-        wordFindScript:'libs/wordfind.js'        
+        wordFindScript:'assets/libs/wordfind.js'        
     },
 
     images:{
-        preloaderLoading:'assets/preloader/loading.png',
-        preloaderLogo:'assets/preloader/logo.png',
-        azoFontImage:'assets/game/azo.png',
-        azoFontXml:'assets/game/azo.xml',  
-        letters:'assets/game/'
+        preloaderLoading:'assets/images/loading.png',
+        preloaderLogo:'assets/images/logo.png',
+        azoFontImage:'assets/images/azo.png',
+        azoFontXml:'assets/images/azo.xml',  
+        letters:'assets/images/'
     },
+    letters:'abcdefghijklmnopqrstuvwxyzᐊᔨᓇᓀᐤ',
 
-    words:['atari', 'firstvoices', 'canada', 'vancouver', 'spectrum', 'charlie',
+    words:['atari', 'ᐊᔨᓇᓀᐤ', 'canada', 'vancouver', 'spectrum', 'charlie',
                     'forest', 'fire', 'earth', 'coleco', 'retro', 'superfamicom',
                     'nes', 'sonic', 'mario', 'masterchief', 'msx', 'gameboy', 'jaguar']
 

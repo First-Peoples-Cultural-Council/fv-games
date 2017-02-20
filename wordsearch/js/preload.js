@@ -30,19 +30,16 @@ class Preload {
         this.game.load.setPreloadSprite(this.loadingBar);
 
         const config = this.config;
-
         this.load.script('wordfind', config.libs.wordFindScript);
-        this.load.bitmapFont('azo', config.images.azoFontImage, config.images.azoFontXml);
 
         var _this = this;
-
         this.load.path = config.images.letters;
 
-        this.letters.forEach(function(letter) {
-            _this.load.spritesheet(letter.toLowerCase(), letter + '.png', 100, 100);
-        });
+        // this.letters.forEach(function(letter) {
+        //     _this.load.spritesheet(letter.toLowerCase(), letter + '.png', 100, 100);
+        // });
 
-
+        this.load.image('tile','tile.png');
     }
 
     fade (nextState)

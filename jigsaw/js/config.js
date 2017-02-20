@@ -1,26 +1,26 @@
 let defaultGameConfig = {
 
     libs:{
-        bitmapJigsawScript:'libs/BitmapDataJigsawCut.js'        
+        bitmapJigsawScript:'assets/libs/BitmapDataJigsawCut.js'        
     },
 
     images:{
-        preloaderLoading:'assets/preloader/loading.png',
-        preloaderLogo:'assets/preloader/logo.png',
-        backgroundImage:'assets/game/wood.jpg',
-        youWin:'assets/game/well-done.png',
-        thumb1:'assets/game/thumb1.png',
-        thumb2:'assets/game/thumb2.png',
-        thumb3:'assets/game/thumb3.png',
-        thumb4:'assets/game/thumb4.png',
-        cornerTopLeft:'assets/game/corner1a.png',
-        cornerTopRight:'assets/game/corner1b.png',
-        cornerBottomLeft:'assets/game/corner1c.png',
-        cornerBottomRight:'assets/game/corner1d.png',
-        picture1:'assets/game/picture1.jpg',
-        picture2:'assets/game/picture2.jpg',
-        picture3:'assets/game/picture3.jpg',
-        picture4:'assets/game/picture4.jpg'
+        preloaderLoading:'assets/images/loading.png',
+        preloaderLogo:'assets/images/logo.png',
+        backgroundImage:'assets/images/wood.jpg',
+        youWin:'assets/images/well-done.png',
+        thumb1:'assets/images/thumb1.png',
+        thumb2:'assets/images/thumb2.png',
+        thumb3:'assets/images/thumb3.png',
+        thumb4:'assets/images/thumb4.png',
+        cornerTopLeft:'assets/images/corner1a.png',
+        cornerTopRight:'assets/images/corner1b.png',
+        cornerBottomLeft:'assets/images/corner1c.png',
+        cornerBottomRight:'assets/images/corner1d.png',
+        picture1:'assets/images/picture1.jpg',
+        picture2:'assets/images/picture2.jpg',
+        picture3:'assets/images/picture3.jpg',
+        picture4:'assets/images/picture4.jpg'
     }
 
 };
