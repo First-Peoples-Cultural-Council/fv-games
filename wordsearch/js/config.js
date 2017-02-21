@@ -11,11 +11,9 @@ let defaultGameConfig = {
         azoFontXml:'assets/images/azo.xml',  
         letters:'assets/images/'
     },
-    letters:'abcdefghijklmnopqrstuvwxyzᐊᔨᓇᓀᐤ',
+    letters:["a","b",'c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','q','x','y','z'],
 
-    words:['atari', 'ᐊᔨᓇᓀᐤ', 'canada', 'vancouver', 'spectrum', 'charlie',
-                    'forest', 'fire', 'earth', 'coleco', 'retro', 'superfamicom',
-                    'nes', 'sonic', 'mario', 'masterchief', 'msx', 'gameboy', 'jaguar']
+    words:["charlie",'bodman']
 
 };
 

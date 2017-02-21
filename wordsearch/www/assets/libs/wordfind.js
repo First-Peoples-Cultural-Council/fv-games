@@ -26,9 +26,6 @@
   */
   var WordFind = function () {
 
-    // Letters used to fill blank spots in the puzzle
-    var letters = 'abcdefghijklmnoprstuvwy';
-
     /**
     * Definitions for all the different orientations in which words can be
     * placed within a puzzle. New orientation definitions can be added and they
@@ -337,7 +334,8 @@
           orientations: opts.orientations || allOrientations,
           fillBlanks:   opts.fillBlanks !== undefined ? opts.fillBlanks : true,
           maxAttempts:  opts.maxAttempts || 3,
-          preferOverlap: opts.preferOverlap !== undefined ? opts.preferOverlap : true
+          preferOverlap: opts.preferOverlap !== undefined ? opts.preferOverlap : true,
+          letters:opts.letters !== undefined ? opts.letters : 'abcdefghijklmnoprstuvwyxz'
         };
 
         // add the words to the puzzle
@@ -369,14 +367,14 @@
       * @param {[[String]]} puzzle: The current state of the puzzle
       * @api public
       */
-      fillBlanks: function (puzzle) {
+      fillBlanks: function (puzzle, options) {
         for (var i = 0, height = puzzle.length; i < height; i++) {
           var row = puzzle[i];
           for (var j = 0, width = row.length; j < width; j++) {
 
             if (!puzzle[i][j]) {
-              var randomLetter = Math.floor(Math.random() * letters.length);
-              puzzle[i][j] = letters[randomLetter];
+              var randomLetter = Math.floor(Math.random() * options.letters.length);
+              puzzle[i][j] = options.letters[randomLetter];
             }
           }
         }

@@ -67,7 +67,7 @@ class Main {
 
             let context = bitmap.context;
             context.drawImage(tileImage, 0,0, tileImage.width, tileImage.height);
-            context.font = "bold 70px Arial";
+            context.font = "bold 35px Arial";
             context.textAlign = "center";
             context.textBaseline = "middle"
             context.fillText(letter,tileImageBlockWidth / 2 ,tileImage.height / 2);
@@ -101,11 +101,11 @@ class Main {
 
         if (this.puzzleWidth !== -1)
         {
-            this.puzzle = wordfind.newPuzzle(this.words, { width: this.puzzleWidth, height: this.puzzleHeight });
+            this.puzzle = wordfind.newPuzzle(this.words, { width: this.puzzleWidth, height: this.puzzleHeight, letters:this.letters });
         }
         else
         {
-            this.puzzle = wordfind.newPuzzle(this.words);
+            this.puzzle = wordfind.newPuzzle(this.words, {letters:this.letters});
             this.puzzleWidth = this.puzzle[0].length;
             this.puzzleHeight = this.puzzle.length;
         }
