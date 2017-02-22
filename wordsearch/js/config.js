@@ -11,9 +11,9 @@ let defaultGameConfig = {
         azoFontXml:'assets/images/azo.xml',  
         letters:'assets/images/'
     },
-    letters:["a","b",'c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','q','x','y','z'],
+    letters:['ʔ','a','Á','á','Ą','ą','Ą́','ą́','b','ch','ch’','d','ddh','dh','dl','dz','e','É','é','Ę','ę','Ę́','ę́','g','gh','h','i','Í','í','Į','į','Į́','į́','j','k','k’','l','Ł','ł','m','n','o','Ó','ó','Ǫ','ǫ','Ǫ́','ǫ́','r','s','sh','t','t’','ts','ts’','tth','tth’','tł','tł’','u','Ú','ú','Ų','ų','Ų́','ų́','w','x','y','z',' ','į','ą','c','’','į́'],
 
-    words:["charlie",'bodman']
+    words:["łuk’é", "chíze", "ke", "dįnį deneyu", "dįnį", "nąntł’er", "xait’ázį́", "dekai", "ek’egwi", "yaghe", "eghézé", "jíedeniyéri", "baghetél", "tthábes", "łus"]
 
 };
 

@@ -56,7 +56,8 @@ class Main {
         for(let i = 0; i < letterCount; i++)
         {
             let letter = letters[i];
-            let letterLowercase = letter.toLowerCase();
+
+            // let letterLowercase = letter.toLowerCase();
 
             let tileImage = this.cache.getImage('tile');
             let tileImageBlockWidth = tileImage.width / 2;
@@ -73,9 +74,9 @@ class Main {
             context.fillText(letter,tileImageBlockWidth / 2 ,tileImage.height / 2);
             context.fillText(letter,tileImageBlockWidth + (tileImageBlockWidth / 2) ,tileImage.height / 2);
 
-            let letterBitmapData = bitmap.canvas.toDataURL();
-
-            this.load.spritesheet(letterLowercase, letterBitmapData, this.tileWidth, this.tileHeight);
+            let letterBitmapData = bitmap.canvas.toDataURL();  
+            
+            this.load.spritesheet(letter, letterBitmapData, this.tileWidth, this.tileHeight);
         }
 
     }
@@ -112,7 +113,7 @@ class Main {
 
         //  Solve the puzzle (i.e. find all of the words within it, and store it)
 
-        var solution = wordfind.solve(this.puzzle, this.words);
+        var solution = wordfind.solve(this.puzzle, this.words, this.letters);
 
         this.solution = solution.found;
 
@@ -184,14 +185,14 @@ class Main {
 
         //  Display the words to find down the right-hand side, and add to the wordList object
 
-        y = 10;
+        y = 35;
 
         this.solution.forEach(function(entry) {
-
+            
             //  One BitmapText per word (so we can change their color when found)
             var style = { font: "bold 28px Arial", autoUpperCase:true, fill: "#FFFFFF" };
             //  One BitmapText per word (so we can change their color when found)
-            _this.wordList[entry.word] = _this.add.text(500, y, entry.word.toUpperCase(), style);
+            _this.wordList[entry.word] = _this.add.text(500, y, entry.word, style);
             _this.wordList[entry.word].right = 780;
             y += 28;
 
@@ -400,10 +401,10 @@ class Main {
         var last = this.endLetter.data;
         var tile;
         var letters = [];
-        var selectedWord = '';
         var x, y, top, bottom, left, right;
 
         //  Let's get all the letters between the first and end letters
+        var selectedLetters = [];
 
         if (first.row === last.row)
         {
@@ -416,7 +417,7 @@ class Main {
             {
                 tile = this.getLetterAt(first.row, y);
                 letters.push(tile);
-                selectedWord = selectedWord.concat(tile.data.letter);
+                selectedLetters.push(tile.data.letter);
             }
         }
         else if (first.column === last.column)
@@ -430,7 +431,7 @@ class Main {
             {
                 tile = this.getLetterAt(x, first.column);
                 letters.push(tile);
-                selectedWord = selectedWord.concat(tile.data.letter);
+                selectedLetters.push(tile.data.letter);
             }
         }
         else
@@ -449,7 +450,7 @@ class Main {
                 {
                     tile = this.getLetterAt(x, y);
                     letters.push(tile);
-                    selectedWord = selectedWord.concat(tile.data.letter);
+                    selectedLetters.push(tile.data.letter);
                     y--;
                 }
             }
@@ -462,7 +463,7 @@ class Main {
                 {
                     tile = this.getLetterAt(x, y);
                     letters.push(tile);
-                    selectedWord = selectedWord.concat(tile.data.letter);
+                    selectedLetters.push(tile.data.letter);
                     y++;
                 }
             }
@@ -475,7 +476,7 @@ class Main {
                 {
                     tile = this.getLetterAt(x, y);
                     letters.push(tile);
-                    selectedWord = selectedWord.concat(tile.data.letter);
+                    selectedLetters.push(tile.data.letter);
                     y++;
                 }
             }
@@ -488,7 +489,7 @@ class Main {
                 {
                     tile = this.getLetterAt(x, y);
                     letters.push(tile);
-                    selectedWord = selectedWord.concat(tile.data.letter);
+                    selectedLetters.push(tile.data.letter);
                     y--;
                 }
             }
@@ -498,20 +499,23 @@ class Main {
             }
         }
 
-        return { word: selectedWord, inverse: Phaser.Utils.reverseString(selectedWord), letters: letters };
+        var selectedWord = selectedLetters.join('');
+        var inverseSelectedWord = selectedLetters.reverse().join('');
+
+        return { word: selectedWord, inverse: inverseSelectedWord, letters: letters };
 
     }
 
     checkSelectedLetters () {
 
         var selection = this.getSelectedLetters();
-
+        
         if (selection)
         {
             var starter = (this.firstLetter.data.startWord) ? this.firstLetter.data : this.endLetter.data;
 
             for (var word in starter.words)
-            {
+            {   
                 if (word === selection.word || word === selection.inverse)
                 {
                     return { word: word, letters: selection.letters };

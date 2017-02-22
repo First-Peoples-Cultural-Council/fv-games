@@ -335,9 +335,40 @@
           fillBlanks:   opts.fillBlanks !== undefined ? opts.fillBlanks : true,
           maxAttempts:  opts.maxAttempts || 3,
           preferOverlap: opts.preferOverlap !== undefined ? opts.preferOverlap : true,
-          letters:opts.letters !== undefined ? opts.letters : 'abcdefghijklmnoprstuvwyxz'
+          letters:opts.letters !== undefined ? opts.letters : ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
         };
 
+        var letters = options.letters;
+
+        letters.sort((a,b)=>{
+          return b.length - a.length;
+        });
+
+        var letterCount = letters.length;
+        var letterRegexStr = "";
+
+        for(var i = 0; i < letterCount; i++)
+        {
+            letterRegexStr += '(' + letters[i] + ')|';
+        }
+
+        var letterRegex = new RegExp(letterRegexStr, "g");
+
+        var wordCount = wordList.length;
+
+        for(var w = 0; w < wordCount; w++)
+        {
+          var word = wordList[w];
+          
+          var wordParts = word.split(letterRegex).filter((l)=>{
+            return (l !== undefined) && l.length !== 0
+          });
+          
+          wordList[w] = wordParts;
+        }
+
+        console.log(wordList);
+        
         // add the words to the puzzle
         // since puzzles are random, attempt to create a valid one up to
         // maxAttempts and then increase the puzzle size and try again

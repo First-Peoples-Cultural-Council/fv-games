@@ -335,9 +335,11 @@
           fillBlanks:   opts.fillBlanks !== undefined ? opts.fillBlanks : true,
           maxAttempts:  opts.maxAttempts || 3,
           preferOverlap: opts.preferOverlap !== undefined ? opts.preferOverlap : true,
-          letters:opts.letters !== undefined ? opts.letters : 'abcdefghijklmnoprstuvwyxz'
+          letters:opts.letters !== undefined ? opts.letters : ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
         };
 
+        wordList = this.splitWords(wordList, options.letters);
+        
         // add the words to the puzzle
         // since puzzles are random, attempt to create a valid one up to
         // maxAttempts and then increase the puzzle size and try again
@@ -380,6 +382,43 @@
         }
       },
 
+
+
+      splitWords:function(words, letters)
+      {
+        //clone words
+        words = words.slice(0);
+
+        letters.sort((a,b)=>{
+          return b.length - a.length;
+        });
+
+        var letterCount = letters.length;
+        var letterRegexStr = "";
+
+        for(var i = 0; i < letterCount; i++)
+        {
+            letterRegexStr += '(' + letters[i] + ')|';
+        }
+
+        var letterRegex = new RegExp(letterRegexStr, "g");
+
+        var wordCount = words.length;
+
+        for(var w = 0; w < wordCount; w++)
+        {
+          var word = words[w];
+          
+          var wordParts = word.split(letterRegex).filter((l)=>{
+            return (l !== undefined) && l.length !== 0
+          });
+          
+          words[w] = wordParts;
+        }        
+
+        return words;
+      },
+
       /**
       * Returns the starting location and orientation of the specified words
       * within the puzzle. Any words that are not found are returned in the
@@ -396,7 +435,7 @@
       * @param {[String]} words: The list of words to find
       * @api public
       */
-      solve: function (puzzle, words) {
+      solve: function (puzzle, words, letters) {
         var options = {
                         height:       puzzle.length,
                         width:        puzzle[0].length,
@@ -405,21 +444,23 @@
                       },
             found = [],
             notFound = [];
-
+            words = this.splitWords(words, letters);
+        
         for(var i = 0, len = words.length; i < len; i++) {
-          var word = words[i],
+              var word = words[i],
               locations = findBestLocations(puzzle, options, word);
 
           if (locations.length > 0 && locations[0].overlap === word.length) {
-            locations[0].word = word;
+            locations[0].word = word.join('');
+            locations[0].wordSplit = word;
             found.push(locations[0]);
           }
           else {
-            notFound.push(word);
+            notFound.push(word.join(''));
           }
         }
 
-        return { found: found, notFound: notFound };
+        return { found: found,  notFound: notFound };
       },
 
       /**
@@ -439,7 +480,6 @@
           puzzleString += '\n';
         }
 
-        console.log(puzzleString);
         return puzzleString;
       }
     };
