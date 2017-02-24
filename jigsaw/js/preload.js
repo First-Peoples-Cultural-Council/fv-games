@@ -35,12 +35,17 @@ class Preload {
 
         this.load.image('wellDone', config.images.youWin);
 
-        this.load.images(['thumb1', 'thumb2', 'thumb3', 'thumb4'],[
-            config.images.thumb1,
-            config.images.thumb2,
-            config.images.thumb3,
-            config.images.thumb4
-        ]);
+        config.puzzles.forEach((puzzle, index)=>{
+
+            puzzle.thumbnailKey = `puzzle_${index}_thumbnail`;
+            puzzle.pictureKey = `puzzle_${index}_picture`;
+            puzzle.audioKey = `puzzle_${index}_sound`;
+
+            this.load.image(puzzle.thumbnailKey, puzzle.thumbnail);
+            this.load.image(puzzle.pictureKey, puzzle.picture);
+            this.load.audio(puzzle.audioKey, [puzzle.sound]);
+            
+        });
 
         this.load.images(['corner1a', 'corner1b', 'corner1c', 'corner1d'],[
             config.images.cornerTopLeft,
@@ -49,10 +54,7 @@ class Preload {
             config.images.cornerBottomRight
         ]);
 
-        this.load.image('picture1', config.images.picture1);
-        this.load.image('picture2', config.images.picture2);
-        this.load.image('picture3', config.images.picture3);
-        this.load.image('picture4', config.images.picture4);
+        this.load.image('arrow', config.images.arrow);
     }
 
     fade (nextState)
