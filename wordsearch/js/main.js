@@ -10,17 +10,12 @@ class Main {
         //  The words mustn't contain any spaces or numbers.
 
         //  The shorter the array, the larger the letter tiles will scale in-game.
-
-        this.words = this.config.words;
-
         this.letters = this.config.letters;
 
         this.puzzle = null;
         this.solution = null;
 
-        //  The BitmapFont word list down the side
         this.wordList = {};
-
         //  The dimensions of the word search, in letters (not pixels)
         //  You can set a fixed size here.
         //  Or set to -1 means it'll adapt to fit the longest word in the words array.
@@ -45,10 +40,30 @@ class Main {
         this.isSelecting = false;
         this.firstLetter = null;
         this.endLetter = null;
+
         this.foundWords = [];
 
+        this.featureWord = null;
+
+        this.mapWords();
 
     }
+
+    mapWords()
+    {
+        const wordMap = {};
+        const wordsArray = [];
+        const words = this.config.words;
+
+        words.forEach((word)=>{
+            wordMap[word.word] = word;
+            wordsArray.push(word.word);
+        })
+
+        this.words = wordsArray;
+        this.wordMap = wordMap;
+    }
+
     preload()
     {
         const letters = this.letters;
@@ -124,7 +139,6 @@ class Main {
         // console.log(this.solution);
 
         //  Create the letter tile grid
-
         var x = 0;
         var y = 0;
         var _this = this;
@@ -158,12 +172,13 @@ class Main {
 
         });
 
+
+
         //  Flag all of the starting letters in the grid
         this.solution.forEach(function(entry) {
 
             //  Based on the grid position we can get the tile index
             var index = (entry.y * _this.puzzleWidth) + entry.x;
-
             var tile = _this.grid.getChildAt(index);
 
             tile.data.startWord = true;
@@ -178,37 +193,125 @@ class Main {
         //  Use it to position the grid within your game, and make sure it fits
         //  no matter how many words are in it.
 
-        this.grid.x = 50;
+        this.grid.x = 25;
         this.grid.y = 50;
         this.grid.width = 500;
         this.grid.height = 500;
 
         //  Display the words to find down the right-hand side, and add to the wordList object
 
-        y = 35;
+        y = 45;
 
-        this.solution.forEach(function(entry) {
+        const wordGroup = this.add.group();
+        
+        this.solution.forEach((entry)=> {
             
-            //  One BitmapText per word (so we can change their color when found)
-            var style = { font: "bold 28px Arial", autoUpperCase:true, fill: "#FFFFFF" };
-            //  One BitmapText per word (so we can change their color when found)
-            _this.wordList[entry.word] = _this.add.text(500, y, entry.word, style);
-            _this.wordList[entry.word].right = 780;
-            y += 28;
+            const word = this.wordMap[entry.word];
+
+            //  One BitmapText per word (so we can change their color when found)            
+            let textGroup = this.make.group();
+            let wordText = this.make.text(0,0, word.word, { font: "bold 25px Arial", autoUpperCase:true, fill: "#FFFFFF" });
+            let englishText = this.make.text(0,30, `${word.english}`, { font: "bold 15px Arial", autoUpperCase:true, fill: "#000000" });
+
+            textGroup.add(wordText);
+            textGroup.add(englishText);
+            wordGroup.add(textGroup);
+            
+            wordText.inputEnabled = true;
+            wordText.events.onInputDown.add(this.selectFeatureWord,this);
+            wordText.data = entry;
+            wordText.input.useHandCursor = true;
+
+            let wordAudio = this.add.audio(entry.word);
+            
+            const wordFeature = this.createWordFeature(entry);
+
+
+            this.wordList[entry.word] = {
+                text:wordText,
+                audio:wordAudio,
+                wordFeature:wordFeature
+            };
+            y += 50;
 
         });
 
-        //  The Graphics object that controls the letter selection line
+        wordGroup.align(4,4,200,55);
+        wordGroup.y = this.game.height - 230;
+        wordGroup.x = 40;
+
+        const title = this.add.text(0, 0, 'Wordsearch' ,{ font: "bold 25px Arial", autoUpperCase:true, fill: "#000000",align:'center' });
+        title.anchor.set(0.5);
+        title.x = this.game.width / 2;
+        title.y = 30
 
         this.drawLine = this.add.graphics(0, 0);
-
-        //  This starts a callback going, that updates whenever the mouse moves,
-        //  and calls updateDrawLine. All of the main game logic happens as a result
-        //  of events triggered within here, and the letter tile input handlers.
 
         this.input.addMoveCallback(this.updateDrawLine, this);
 
         this.fadeIn();
+    }
+
+    playAudio(word)
+    {
+        this.wordList[word].audio.play();
+    }
+
+    createWordFeature(entry)
+    {
+        const wordData = this.wordMap[entry.word];
+
+        const wordImage = this.make.image(0,0,wordData.word);
+        wordImage.width = 200;
+        wordImage.height = 200;
+
+        const graphics = this.make.graphics(0, 0);
+        graphics.lineStyle(4, 0x000000, 1);
+        graphics.drawRect(0,0, 200, 200);
+
+        const word = this.make.text(0, 210, wordData.word ,{ font: "bold 25px Arial", autoUpperCase:true, fill: "#FFFFFF"});
+        const english = this.make.text(0, 240, wordData.english, { font: "bold 20px Arial", autoUpperCase:true, fill: "#000000"})
+        const playAudio = this.make.image(0,270,'playAudio');
+        playAudio.width = 25;
+        playAudio.height = 25;
+        playAudio.inputEnabled = true;
+        playAudio.events.onInputUp.add(this.playAudio.bind(this, entry.word));
+        playAudio.input.useHandCursor = true;
+
+        const wordFeature = this.game.add.group();
+        wordFeature.add(wordImage);
+        wordFeature.add(graphics);
+        wordFeature.add(word);
+        wordFeature.add(english);
+        wordFeature.add(playAudio);
+        wordFeature.x = this.game.width - 235;
+        wordFeature.y = 55;
+        wordFeature.visible = false;
+
+        return wordFeature;
+    }
+
+    selectFeatureWord(text)
+    {
+
+        if(this.featureWord !== null)
+        {
+            this.featureWord.visible = false;
+        }
+
+        const word = this.wordList[text.data.word];
+        word.wordFeature.visible = true;
+        this.featureWord = word.wordFeature;
+
+        this.playAudio(text.data.word);
+    }
+
+
+    render()
+    {
+        this.words.forEach((word)=>{
+            this.game.debug.body(this.wordList[word], "red", false);
+        })
 
     }
 
@@ -222,15 +325,12 @@ class Main {
             return;
         }
 
-        this.drawLine.clear();
-
-        this.drawLine.lineStyle(this.drawLineThickness, this.drawLineColor, this.drawLineAlpha);
-
         var tw = (this.tileWidth * this.firstLetter.worldScale.x) / 2;
         var th = (this.tileHeight * this.firstLetter.worldScale.y) / 2;
 
+        this.drawLine.clear();
+        this.drawLine.lineStyle(this.drawLineThickness, this.drawLineColor, this.drawLineAlpha);
         this.drawLine.moveTo(this.firstLetter.worldPosition.x + tw, this.firstLetter.worldPosition.y + th);
-
         this.drawLine.lineTo(x, y);
 
     }
@@ -306,8 +406,12 @@ class Main {
         var _this = this;
 
         //  result contains the sprites of the letters, the word, etc.
-        this.wordList[result.word].tint = this.highlightTint;
+        const word = this.wordList[result.word]
 
+        word.text.tint = this.highlightTint;
+
+        this.selectFeatureWord(word.text);
+        
         result.letters.forEach(function(letter) {
             letter.tint = _this.highlightTint;
         });

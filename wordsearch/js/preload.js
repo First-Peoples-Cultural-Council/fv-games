@@ -11,8 +11,6 @@ class Preload {
         this.status     = this.game.make.text(this.game.world.centerX, 450, 'Loading...', {fill: 'black'});
 
         this.centerObjects([this.logo, this.status, this.loadingBar]);
-
-        this.letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
     }
 
     centerObjects(objects)
@@ -31,15 +29,13 @@ class Preload {
 
         const config = this.config;
         this.load.script('wordfind', config.libs.wordFindScript);
+        this.load.image('tile',config.images.tile);
+        this.load.image('playAudio',config.images.playAudio);
 
-        var _this = this;
-        this.load.path = config.images.letters;
-
-        // this.letters.forEach(function(letter) {
-        //     _this.load.spritesheet(letter.toLowerCase(), letter + '.png', 100, 100);
-        // });
-
-        this.load.image('tile','tile.png');
+        config.words.forEach((word)=>{
+            this.load.audio(word.word, word.audio);
+            this.load.image(word.word, word.image)
+        });
     }
 
     fade (nextState)
