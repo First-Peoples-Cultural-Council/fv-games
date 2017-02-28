@@ -211,10 +211,10 @@ class Main {
             //  One BitmapText per word (so we can change their color when found)            
             let textGroup = this.make.group();
             let wordText = this.make.text(0,0, word.word, { font: "bold 25px Arial", autoUpperCase:true, fill: "#FFFFFF" });
-            let englishText = this.make.text(0,30, `${word.english}`, { font: "bold 15px Arial", autoUpperCase:true, fill: "#000000" });
+            let translatedText = this.make.text(0,30, `${word.translation}`, { font: "bold 15px Arial", autoUpperCase:true, fill: "#000000" });
 
             textGroup.add(wordText);
-            textGroup.add(englishText);
+            textGroup.add(translatedText);
             wordGroup.add(textGroup);
             
             wordText.inputEnabled = true;
@@ -270,7 +270,7 @@ class Main {
         graphics.drawRect(0,0, 200, 200);
 
         const word = this.make.text(0, 210, wordData.word ,{ font: "bold 25px Arial", autoUpperCase:true, fill: "#FFFFFF"});
-        const english = this.make.text(0, 240, wordData.english, { font: "bold 20px Arial", autoUpperCase:true, fill: "#000000"})
+        const translation = this.make.text(0, 240, wordData.translation, { font: "bold 20px Arial", autoUpperCase:true, fill: "#000000"})
         const playAudio = this.make.image(0,270,'playAudio');
         playAudio.width = 25;
         playAudio.height = 25;
@@ -282,7 +282,7 @@ class Main {
         wordFeature.add(wordImage);
         wordFeature.add(graphics);
         wordFeature.add(word);
-        wordFeature.add(english);
+        wordFeature.add(translation);
         wordFeature.add(playAudio);
         wordFeature.x = this.game.width - 235;
         wordFeature.y = 55;

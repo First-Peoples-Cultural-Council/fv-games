@@ -6,13 +6,14 @@ class GameTitle {
     {
         this.config = configManager.getConfig();
         this.page = 0
-        this.perPage = 4;
-        this.pageOffset = 325;
+        this.pageOffset = 700;
+        this.maxPage = (Math.ceil(this.config.words.length / 4) - 1);
     }
 
     create()
     {
-        this.add.sprite(0, 0, 'wood');
+        const sprite = this.add.sprite(0, 0, 'wood');
+        sprite.alpha = 0.7
         this.createThumbnails();
         this.fadeIn();
     }
@@ -20,59 +21,124 @@ class GameTitle {
     createThumbnails()
     {
         const config = this.config;
-        const puzzles = config.puzzles;
+        const words = config.words;
 
         this.thumbnails = this.add.group();
         this.thumbnails.inputEnableChildren = true;
-        puzzles.forEach((puzzle,index)=>{
-            var style = { font: "bold 30px Arial", fill: "#ffffff", align: "center"};  
-            var text = this.game.add.text(0, 0, "Test\nTest", style);
+        words.forEach((word,index)=>{
 
-            var bar = this.game.add.graphics();
-            bar.beginFill(0x000000, 0);
-            bar.drawRect(0, 0, 200, 100);
-    
-            var thumb = this.thumbnails.create(0,0,puzzle.thumbnailKey);
-            text.anchor.set(0.5);
-            text.x = 0;
-            text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+            const thumbGroup = this.make.group();
 
-            thumb.addChild(bar);
-            thumb.addChild(text);
+            const thumb = this.make.image(0,0,word.pictureKey);
+            const thumbWidth = thumb.width;
+            const thumbHeight = thumb.height;
+            thumb.width = 300;
+            thumb.height = 300 * (thumbHeight / thumbWidth)
+            thumb.inputEnabled = true;
+            thumb.input.useHandCursor = true;
+            thumb.data = { width: 3, height: 3, img: word.pictureKey };
 
-            thumb.data = { width: 3, height: 3, img: puzzle.pictureKey };
+            const thumbShadow = this.make.image(0,0,word.pictureKey);
+            thumbShadow.width = thumb.width;
+            thumbShadow.height = thumb.height;
+            thumbShadow.tint = 0x000000;
+            thumbShadow.alpha = 0.6;
+            thumbShadow.x = 5;
+            thumbShadow.y = 5;
+
+            var wordText = this.game.add.text(0, 0, word.word, { font: "bold 30px Arial", fill: "#ffffff", align: "center"});
+            wordText.anchor.set(0.5);
+            wordText.x = thumb.width / 2;
+            wordText.y = thumb.height / 2;
+            wordText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+            wordText.resolution = 2;
+
+            var translationText = this.game.add.text(0, 0, word.translation, { font: "bold 20px Arial", fill: "#ffffff", align: "center"});
+            translationText.anchor.set(0.5);
+            translationText.x = thumb.width / 2;
+            translationText.y = thumb.height / 2 + 30;
+            translationText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
+            translationText.resolution = 2;
+
+
+            const border = this.make.graphics(0, 0);
+            border.lineStyle(4, 0x000000, 1);
+            border.drawRect(0,0, thumb.width,thumb.height);
+
+            thumbGroup.add(thumbShadow);
+            thumbGroup.add(thumb);
+            thumbGroup.add(wordText);
+            thumbGroup.add(translationText);
+            thumbGroup.add(border);
+
+
+            thumbGroup.onChildInputUp.add(this.selectThumb, this);
+
+            this.thumbnails.add(thumbGroup);
         }); 
 
-        // this.thumbnails.createMultiple(1, ['thumb1', 'thumb2', 'thumb3', 'thumb4'], 0, true);
-        this.thumbnails.setAll('input.useHandCursor', 'input', true);
-        this.thumbnails.callAll('anchor.set', 'anchor', 0.5);
-        this.thumbnails.align(Math.round(puzzles.length / 2), 2, 360, 250, Phaser.BOTTOM_RIGHT);
-        this.thumbnails.onChildInputOver.add(this.overThumb, this);
-        this.thumbnails.onChildInputOut.add(this.outThumb, this);
-        this.thumbnails.onChildInputUp.add(this.selectThumb, this);
-        this.thumbnails.x = 40;
-        this.thumbnails.y = 50;
-
-
-
+        this.thumbnails.align(Math.round(words.length / 2), 2, 375, 250, Phaser.BOTTOM_LEFT);
+        this.thumbnails.x = 65;
+        this.thumbnails.y = 40;
+        this.thumbnails.child
 
             //  One BitmapText per word (so we can change their color when found)
-        var style = { font: "bold 28px Arial", autoUpperCase:true, fill: "#000000" };
+        var style = { font: "bold 28px Arial", autoUpperCase:true, fill: "#FFFFFF" };
         //  One BitmapText per word (so we can change their color when found)
         var title = this.add.text(0,0, 'Choose a Puzzle', style);
         title.anchor.x = 0.5;
         title.anchor.y = 0.5;
         title.x = this.game.width / 2;
-        title.y = 25;
+        title.y = 45;
+        title.setShadow(1, 1, '#000000', 1);
+        title.resolution = 2;
 
-        var nextArrow = this.add.image(this.game.width - 15, this.game.height - 15 ,'arrow');
-        nextArrow.anchor.x = 1;
-        nextArrow.anchor.y = 1;
-        nextArrow.inputEnabled = true;
-        nextArrow.events.onInputUp.add(()=>{
-            this.page++;
-            this.add.tween(this.thumbnails).to({x:-(this.page * this.pageOffset)},1500, Phaser.Easing.Elastic.Out, true);
-        })
+
+
+        var nextPage = this.add.image(this.game.width - 50, this.game.height - 30 ,'arrow');
+        nextPage.anchor.setTo(0.5)
+        nextPage.inputEnabled = true;
+        nextPage.input.useHandCursor = true;
+        nextPage.events.onInputUp.add(()=>{
+            if(this.page < this.maxPage)
+            {
+                this.page++;
+                const pagePosition = (this.page )
+                var test = this.thumbnails.getAt((this.page * 4));
+                this.add.tween(this.thumbnails).to({x:-(test.x) + 65},1200, Phaser.Easing.Elastic.Out, true);
+                this.previousPageButton.visible = true;
+
+                if(this.page >= this.maxPage)
+                {
+                    this.nextPageButton.visible = false;
+                }
+            } 
+        });
+
+        var previousPage = this.add.image(50, this.game.height - 30 ,'arrow');
+        previousPage.anchor.setTo(0.5)
+        previousPage.angle = 180;
+        previousPage.inputEnabled = true;
+        previousPage.input.useHandCursor = true;
+        previousPage.visible = false;
+        previousPage.events.onInputUp.add(()=>{
+            if(this.page > 0)
+            {
+                this.page--;
+                const pagePosition = (this.page )
+                var test = this.thumbnails.getAt((this.page * 4));
+                this.add.tween(this.thumbnails).to({x:-(test.x) + 65},1200, Phaser.Easing.Elastic.Out, true);
+
+                if(this.page === 0)
+                {
+                    this.previousPageButton.visible = false;
+                    this.nextPageButton.visible = true;
+                }
+            } 
+        });
+
+        this.previousPageButton = previousPage;
+        this.nextPageButton = nextPage;
 
     }
 
@@ -95,23 +161,6 @@ class GameTitle {
 
 
 
-    /**
-     * Thumbnail
-     */
-    overThumb(thumbnail)
-    {
-        thumbnail.scale.set(1.1);
-        thumbnail.angle = 4;
-    }
-
-    /**
-     * Thumbnail
-     */
-    outThumb(thumbnail)
-    {
-        thumbnail.scale.set(1);
-        thumbnail.angle = 0;
-    }
 
     selectThumb(thumbnail)
     {

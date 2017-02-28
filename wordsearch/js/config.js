@@ -16,91 +16,91 @@ let defaultGameConfig = {
     words:[
         {
             word:"łuk’é",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         }, 
         {
             word:"chíze",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         }, 
         {
             word:"asd oaskd o",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         }, 
         {
             word:"dįnį deneyu",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         }, 
         {
             word:"dįnį",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         }, 
         {
             word:"nąntł’er",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         }, 
         {
             word:"xait’ázį́",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         },  
         {
             word:"dekai",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         }, 
         {
             word:"ek’egwi",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         }, 
         {
             word:"yaghe",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         }, 
         {
             word:"eghéasdzé",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         }, 
         {
             word:"jíedeniyéri",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         }, 
         {
             word:"bagheasdtél",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         },  
         {
             word:"tthábes",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         },  
         {
             word:"łus",
-            english:"english",
+            translation:"translation",
             audio:'assets/sounds/sample.mp3',
             image:'assets/images/bear.jpg'
         }

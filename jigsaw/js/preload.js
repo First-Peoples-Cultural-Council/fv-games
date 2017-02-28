@@ -35,15 +35,13 @@ class Preload {
 
         this.load.image('wellDone', config.images.youWin);
 
-        config.puzzles.forEach((puzzle, index)=>{
+        config.words.forEach((word, index)=>{
 
-            puzzle.thumbnailKey = `puzzle_${index}_thumbnail`;
-            puzzle.pictureKey = `puzzle_${index}_picture`;
-            puzzle.audioKey = `puzzle_${index}_sound`;
+            word.pictureKey = `puzzle_${index}_picture`;
+            word.audioKey = `puzzle_${index}_sound`;
 
-            this.load.image(puzzle.thumbnailKey, puzzle.thumbnail);
-            this.load.image(puzzle.pictureKey, puzzle.picture);
-            this.load.audio(puzzle.audioKey, [puzzle.sound]);
+            this.load.image(word.pictureKey, word.picture);
+            this.load.audio(word.audioKey, [word.audio]);
             
         });
 

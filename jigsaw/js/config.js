@@ -16,62 +16,45 @@ let defaultGameConfig = {
         arrow:'assets/images/blue_arrow.png'
     },
 
-    puzzles:[
+    words:[
         {
-            thumbnail:'assets/images/thumb1.png',
             picture:'assets/images/picture1.jpg',
-            word:{
-                word:'Bear',
-                english:"Bear"
-            },
-            sound:'assets/sounds/sample.mp3'
+            word:'Bear',
+            translation:'translation',
+            audio:'assets/sounds/sample.mp3'
         },
         {
-            thumbnail:'assets/images/thumb2.png',
             picture:'assets/images/picture2.jpg',
-            word:{
-                word:'Bear',
-                english:"Bear"
-            },
-            sound:'assets/sounds/sample.mp3'
+            word:'Bear',
+            translation:'translation',
+            audio:'assets/sounds/sample.mp3'
         },
         {
-            thumbnail:'assets/images/thumb3.png',
             picture:'assets/images/picture3.jpg',
-            word:{
-                word:'Bear',
-                english:"Bear"
-            },
-            sound:'assets/sounds/sample.mp3'
+            word:'Bear',
+            translation:'translation',
+            audio:'assets/sounds/sample.mp3'
         },
         {
-            thumbnail:'assets/images/thumb4.png',
             picture:'assets/images/picture4.jpg',
-            word:{
-                word:'Bear',
-                english:"Bear"
-            },
-            sound:'assets/sounds/sample.mp3'
+            word:'Bear',
+            translation:'translation',
+            audio:'assets/sounds/sample.mp3'
         },
         {
-            thumbnail:'assets/images/thumb4.png',
-            picture:'assets/images/picture4.jpg',
-            word:{
-                word:'Bear',
-                english:"Bear"
-            },
-            sound:'assets/sounds/sample.mp3'
+            picture:'assets/images/picture1.jpg',
+            word:'Bear',
+            translation:'translation',
+            audio:'assets/sounds/sample.mp3'
         },
         {
-            thumbnail:'assets/images/thumb4.png',
-            picture:'assets/images/picture4.jpg',
-            word:{
-                word:'Bear',
-                english:"Bear"
-            },
-            sound:'assets/sounds/sample.mp3'
+            picture:'assets/images/picture2.jpg',
+            word:'Bear',
+            translation:'translation',
+            audio:'assets/sounds/sample.mp3'
         }
-    ]
+    ],
+   
 
 };
 
