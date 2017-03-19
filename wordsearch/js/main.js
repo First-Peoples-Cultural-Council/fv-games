@@ -54,12 +54,16 @@ class Main {
         const wordMap = {};
         const wordsArray = [];
         const words = this.config.words;
+        
+        let letters = this.letters;
 
         words.forEach((word)=>{
             wordMap[word.word] = word;
             wordsArray.push(word.word);
+            letters = letters.concat(word.word.split(''));
         })
 
+        this.letters = letters;
         this.words = wordsArray;
         this.wordMap = wordMap;
     }
@@ -111,8 +115,10 @@ class Main {
 
     create () {
 
-        this.stage.backgroundColor = '#00BAD2';
-
+        this.stage.backgroundColor = '#A5572C';
+        const background = this.add.sprite(0, -50, 'background');
+        background.scale.setTo(0.5,0.5);
+        
         //  Generate a new Word Search puzzle, and store the size of it.
 
         if (this.puzzleWidth !== -1)
@@ -266,7 +272,7 @@ class Main {
         wordImage.height = 200;
 
         const graphics = this.make.graphics(0, 0);
-        graphics.lineStyle(4, 0x000000, 1);
+        graphics.lineStyle(4, 0xFFFFFF, 1);
         graphics.drawRect(0,0, 200, 200);
 
         const word = this.make.text(0, 210, wordData.word ,{ font: "bold 25px Arial", autoUpperCase:true, fill: "#FFFFFF"});

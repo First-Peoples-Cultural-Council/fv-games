@@ -31,6 +31,7 @@ class Preload {
         this.load.script('wordfind', config.libs.wordFindScript);
         this.load.image('tile',config.images.tile);
         this.load.image('playAudio',config.images.playAudio);
+        this.load.image('background',config.images.background);
 
         config.words.forEach((word)=>{
             this.load.audio(word.word, word.audio);
