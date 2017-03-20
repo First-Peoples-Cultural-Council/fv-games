@@ -1,8 +1,11 @@
+import configManager from './config';
 
 class Preload {
 
     init()
     {
+        this.config = configManager.getConfig();
+
         this.loadingBar = this.game.make.sprite(this.game.world.centerX , 500, "loading");
         this.logo       = this.game.make.sprite(this.game.world.centerX, 250, 'brand');
         this.status     = this.game.make.text(this.game.world.centerX, 450, 'Loading...', {fill: 'black'});
@@ -19,10 +22,20 @@ class Preload {
 
     preload()
     {
-        this.game.add.existing(this.logo).scale.setTo(0.5);
-        this.game.add.existing(this.loadingBar);
-        this.game.add.existing(this.status);
-        this.game.load.setPreloadSprite(this.loadingBar);
+        this.add.existing(this.logo).scale.setTo(0.5);
+        this.add.existing(this.loadingBar);
+        this.add.existing(this.status);
+        this.load.setPreloadSprite(this.loadingBar);
+
+        this.load.image('card', this.config.images.card);
+        this.load.image('card_flipped', this.config.images.card_flipped);
+        this.load.image('background', this.config.images.background);
+        this.load.image('title', this.config.images.title);
+        this.load.image('time', this.config.images.time);
+
+        this.config.cards.map((card)=>{
+            this.load.image(card.image, card.image);
+        });
     }
 
     fade (nextState)
@@ -60,9 +73,8 @@ class Preload {
         backgroundTween.start();
     }
 
-
     create(){
-        // this.fade("Main");
+        this.fade("Main");
     }
 }
 

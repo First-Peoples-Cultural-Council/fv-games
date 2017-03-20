@@ -1,0 +1,59 @@
+let defaultGameConfig = {
+
+    images:{
+        preloaderLoading:'assets/images/loading.png',
+        preloaderLogo:'assets/images/logo.png',
+        background:'assets/images/background.png',
+        card:'assets/images/card.png',
+        card_flipped:'assets/images/card_flipped.png',
+        title:'assets/images/title.png',
+        time:'assets/images/time.png'
+    },
+
+    cards:[
+        {
+            word:'Word 1',
+            translation:'english translation',
+            image:'assets/images/example/1.png',
+            audio:'assets/sounds/sample.mp3'
+        },
+        {
+            word:'Word 2',
+            translation:'english translation',
+            image:'assets/images/example/2.png',
+            audio:'assets/sounds/sample.mp3'
+        },
+        {
+            word:'Word 3',
+            translation:'english translation',
+            image:'assets/images/example/3.png',
+            audio:'assets/sounds/sample.mp3'
+        },
+        {
+            word:'Word 4',
+            translation:'english translation',
+            image:'assets/images/example/4.png',
+            audio:'assets/sounds/sample.mp3'
+        },
+        {
+            word:'Word 5',
+            translation:'english translation',
+            image:'assets/images/example/5.png',
+            audio:'assets/sounds/sample.mp3'
+        }
+    ]
+    
+};
+
+let gameConfig = {};
+
+export default {
+
+    setConfig:(config) => {
+        gameConfig = Object.assign({}, defaultGameConfig, config, gameConfig);
+    },
+
+    getConfig:() => {
+        return gameConfig;
+    }
+}
