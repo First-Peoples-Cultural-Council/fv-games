@@ -26,16 +26,6 @@ class Preload {
         this.game.add.existing(this.loadingBar);
         this.game.add.existing(this.status);
         this.game.load.setPreloadSprite(this.loadingBar);
-
-        const config = this.config;
-        this.load.script('wordfind', config.libs.wordFindScript);
-        this.load.image('tile',config.images.tile);
-        this.load.image('playAudio',config.images.playAudio);
-
-        config.words.forEach((word)=>{
-            this.load.audio(word.word, word.audio);
-            this.load.image(word.word, word.image)
-        });
     }
 
     fade (nextState)
@@ -72,7 +62,6 @@ class Preload {
         backgroundTween.to({ alpha: 0 }, 1000, null);
         backgroundTween.start();
     }
-
 
     create(){
         this.fade("Main");
