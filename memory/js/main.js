@@ -75,6 +75,8 @@ class Main {
         itemImage.anchor.setTo(0.5,0.5);
         itemImage.x = 0
         itemImage.y = 0
+        itemImage.width = 100;
+        itemImage.height = 100;
         itemImage.scale.setTo(0.5);
 
         const word = this.game.make.text(0,0,cardData.word,{ font: "12px Arial", fill: "#FFFFFF", align: "center" });
@@ -89,7 +91,7 @@ class Main {
         cardContents.add(word);
         cardContents.add(translation);
         cardContents.visible = false;
-        
+
         card.add(cardSprite);
         card.add(cardFlipped);
         card.add(cardContents);
