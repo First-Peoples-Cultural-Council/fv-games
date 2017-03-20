@@ -28,6 +28,8 @@ class Main {
 
         //  Textured paper background
         // this.add.sprite(0, 0, 'paper');
+        this.background = this.add.sprite(0,0,'background');
+        this.background.scale.setTo(0.5,0.5);
         this.createThumbnails();
         this.fadeIn();
     }
@@ -54,11 +56,8 @@ class Main {
     createThumbnails () {
 
         this.thumbnails = this.add.group();
-
         this.thumbnails.inputEnableChildren = true;
-
         this.thumbnails.createMultiple(1, ['thumb1', 'thumb2', 'thumb3', 'thumb4'], 0, true);
-
         this.thumbnails.setAll('input.useHandCursor', 'input', true);
         this.thumbnails.callAll('anchor.set', 'anchor', 0.5);
 
@@ -96,6 +95,8 @@ class Main {
      */
     selectThumb (thumbnail) {
 
+        this.background.visible = false;
+        
         this.key = thumbnail.key.replace('thumb', 'picture');
 
         this.thumbnails.destroy();

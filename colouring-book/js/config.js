@@ -22,7 +22,8 @@ let defaultGameConfig = {
         thumb1:'assets/images/thumb1.png',
         thumb2:'assets/images/thumb2.png',
         thumb3:'assets/images/thumb3.png',
-        thumb4:'assets/images/thumb4.png'
+        thumb4:'assets/images/thumb4.png',
+        background:'assets/images/background.png'
     }
 
 };

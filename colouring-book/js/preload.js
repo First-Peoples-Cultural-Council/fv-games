@@ -52,11 +52,12 @@ class Preload {
         //  This is all just the template UI. The pictures and thumbnails are the things
         //  that are actually colored in.
 
-        this.load.images(['swatch', 'selected', 'print', 'save'],[
+        this.load.images(['swatch', 'selected', 'print', 'save', 'background'],[
             config.images.swatch,
             config.images.selected,
             config.images.print,
             config.images.save,
+            config.images.background
         ]);
 
         this.load.images(['picture1', 'picture2', 'picture3', 'picture4'],[
