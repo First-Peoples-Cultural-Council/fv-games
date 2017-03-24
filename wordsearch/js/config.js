@@ -109,6 +109,7 @@ let defaultGameConfig = {
 
 };
 
+
 let gameConfig = {};
 
 export default {
