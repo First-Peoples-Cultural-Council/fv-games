@@ -53,7 +53,7 @@ class Main {
     {
         const wordMap = {};
         const wordsArray = [];
-        const words = this.config.words;
+        const words = this.config.words.slice(0,16);
         
         let letters = this.letters;
 
@@ -213,11 +213,18 @@ class Main {
         this.solution.forEach((entry)=> {
             
             const word = this.wordMap[entry.word];
+            
+            let translation = word.translation;
 
+            if(translation.length > 20)
+            {
+                translation = truncate.apply(translation, [20,true])
+            }
+            
             //  One BitmapText per word (so we can change their color when found)            
             let textGroup = this.make.group();
             let wordText = this.make.text(0,0, word.word, { font: "bold 25px Arial", autoUpperCase:true, fill: "#FFFFFF" });
-            let translatedText = this.make.text(0,30, `${word.translation}`, { font: "bold 15px Arial", autoUpperCase:true, fill: "#000000" });
+            let translatedText = this.make.text(0,30, `${translation}`, { font: "bold 15px Arial", autoUpperCase:true, fill: "#000000" });
 
             textGroup.add(wordText);
             textGroup.add(translatedText);
@@ -275,9 +282,16 @@ class Main {
         graphics.lineStyle(4, 0xFFFFFF, 1);
         graphics.drawRect(0,0, 200, 200);
 
-        const word = this.make.text(0, 210, wordData.word ,{ font: "bold 25px Arial", autoUpperCase:true, fill: "#FFFFFF"});
-        const translation = this.make.text(0, 240, wordData.translation, { font: "bold 20px Arial", autoUpperCase:true, fill: "#000000"})
-        const playAudio = this.make.image(0,270,'playAudio');
+        let wordTranslation = wordData.translation;
+            
+        const word = this.make.text(30, 210, wordData.word ,{ font: "bold 25px Arial", autoUpperCase:true, fill: "#FFFFFF"});
+        word.inputEnabled = true;
+        word.events.onInputUp.add(this.playAudio.bind(this, entry.word));
+        word.input.useHandCursor = true;
+
+        const translation = this.make.text(0, 240, wordTranslation, { wordWrapWidth:200, font: "bold 20px Arial", autoUpperCase:true, fill: "#000000", wordWrap:true})
+
+        const playAudio = this.make.image(0,215,'playAudio');
         playAudio.width = 25;
         playAudio.height = 25;
         playAudio.inputEnabled = true;
@@ -306,7 +320,9 @@ class Main {
         }
 
         const word = this.wordList[text.data.word];
+
         word.wordFeature.visible = true;
+        
         this.featureWord = word.wordFeature;
 
         this.playAudio(text.data.word);
@@ -638,4 +654,16 @@ class Main {
     }
 }
 
+/**
+ * Truncate 
+ */
+function truncate( n, useWordBoundary ){
+    if (this.length <= n) { return this; }
+    var subString = this.substr(0, n-1);
+    return (useWordBoundary 
+       ? subString.substr(0, subString.lastIndexOf(' ')) 
+       : subString) + "...";
+};
+
 export default Main;
+
