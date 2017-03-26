@@ -32,7 +32,7 @@ class Main {
         this.drawLineThickness = 26;
 
         //  A tint applied to the letters when a word is found
-        this.highlightTint = 0xffff00;
+        this.highlightTint = 0x8CAC26;
 
         //  Booleans to control the game during play
         this.drawLine = null;
@@ -116,10 +116,10 @@ class Main {
     create () {
 
         this.stage.backgroundColor = '#A5572C';
+
+
         const background = this.add.sprite(0, -50, 'background');
         background.scale.setTo(0.5,0.5);
-        
-        //  Generate a new Word Search puzzle, and store the size of it.
 
         if (this.puzzleWidth !== -1)
         {
@@ -132,64 +132,51 @@ class Main {
             this.puzzleHeight = this.puzzle.length;
         }
 
-        //  Solve the puzzle (i.e. find all of the words within it, and store it)
-
         var solution = wordfind.solve(this.puzzle, this.words, this.letters);
-
         this.solution = solution.found;
 
-        //  Un-comment these to Debug the puzzle, the first outputs the puzzle to the console
-        //  The second outputs the answers object
-
-        // wordfind.print(this.puzzle);
-        // console.log(this.solution);
-
-        //  Create the letter tile grid
         var x = 0;
         var y = 0;
-        var _this = this;
 
         this.grid = this.add.group();
         this.grid.inputEnableChildren = true;
 
-        this.puzzle.forEach(function(row) {
+        this.puzzle.forEach((row) => {
 
-            row.forEach(function(letter) {
+            row.forEach((letter) => {
 
-                var tile = _this.grid.create(x, y, letter, 0);
-
-                tile.data.row = x / _this.tileWidth;
-                tile.data.column = y / _this.tileHeight;
+                var tile = this.grid.create(x, y, letter, 0);
+                tile.data.row = x / this.tileWidth;
+                tile.data.column = y / this.tileHeight;
                 tile.data.words = {};
                 tile.data.letter = letter;
                 tile.data.startWord = false;
 
-                tile.events.onInputDown.add(_this.startLetterSelect, _this);
-                tile.events.onInputUp.add(_this.stopLetterSelect, _this);
-                tile.events.onInputOver.add(_this.overLetter, _this);
-                tile.events.onInputOut.add(_this.outLetter, _this);
-
-                x += _this.tileWidth;
+                tile.events.onInputDown.add(this.startLetterSelect, this);
+                tile.events.onInputUp.add(this.stopLetterSelect, this);
+                tile.events.onInputOver.add(this.overLetter, this);
+                tile.events.onInputOut.add(this.outLetter, this);
+                x += this.tileWidth;
 
             });
 
             x = 0;
-            y += _this.tileHeight;
+            y += this.tileHeight;
 
         });
+        const graphics = this.add.graphics(0, 0);
+        graphics.lineStyle(4, 0x000000, 1);
+        graphics.moveTo(30, this.game.height - 55);
+        graphics.lineTo(this.game.width - 30, this.game.height - 55);
 
 
 
         //  Flag all of the starting letters in the grid
-        this.solution.forEach(function(entry) {
-
-            //  Based on the grid position we can get the tile index
-            var index = (entry.y * _this.puzzleWidth) + entry.x;
-            var tile = _this.grid.getChildAt(index);
-
+        this.solution.forEach((entry) => {
+            var index = (entry.y * this.puzzleWidth) + entry.x;
+            var tile = this.grid.getChildAt(index);            
             tile.data.startWord = true;
             tile.data.words[entry.word] = { orientation: entry.orientation, length: entry.word.length };
-
         });
 
         //  This controls the position and scale of the word search grid
@@ -200,13 +187,12 @@ class Main {
         //  no matter how many words are in it.
 
         this.grid.x = 25;
-        this.grid.y = 50;
+        this.grid.y = 85;
         this.grid.width = 500;
         this.grid.height = 500;
 
         //  Display the words to find down the right-hand side, and add to the wordList object
 
-        y = 45;
 
         const wordGroup = this.add.group();
         
@@ -239,30 +225,81 @@ class Main {
             
             const wordFeature = this.createWordFeature(entry);
 
-
             this.wordList[entry.word] = {
                 text:wordText,
                 audio:wordAudio,
                 wordFeature:wordFeature
             };
-            y += 50;
 
         });
 
         wordGroup.align(4,4,200,55);
-        wordGroup.y = this.game.height - 230;
+        wordGroup.y = this.game.height - 280;
         wordGroup.x = 40;
 
-        const title = this.add.text(0, 0, 'Wordsearch' ,{ font: "bold 25px Arial", autoUpperCase:true, fill: "#000000",align:'center' });
-        title.anchor.set(0.5);
+        const title = this.add.image(0,0,'title');
         title.x = this.game.width / 2;
-        title.y = 30
+        title.y = 45;
+        title.scale.setTo(0.75);
+        title.anchor.setTo(0.5);
 
         this.drawLine = this.add.graphics(0, 0);
-
         this.input.addMoveCallback(this.updateDrawLine, this);
+        // this.fadeIn();
+        this.createRestartButton();
+        this.createRevealSolution();
+    }
 
-        this.fadeIn();
+    createRestartButton()
+    {
+        let restart = this.add.text(0,0, 'Restart');
+        restart.y = this.game.height - 40;
+        restart.anchor.set(0, 0);
+        restart.font = 'Arial';
+        restart.fontSize = 20;
+        restart.fill = '#FFFFFF';
+        restart.stroke = '#000000';
+        restart.strokeThickness = 3;
+        restart.x = 30
+        restart.inputEnabled = true;
+        restart.input.useHandCursor = true;
+
+        restart.events.onInputDown.add(()=>{
+            restart.fill = '#000000';
+            restart.stroke = '#FFFFFF';
+            this.game.state.start("GameTitle");
+
+        })
+        restart.events.onInputUp.add(()=>{
+            restart.fill = '#FFFFFF';
+            restart.stroke = '#000000';
+        })        
+    }
+
+    createRevealSolution()
+    {
+        let revealSolution = this.add.text(0,0, 'Reveal Solution');
+        revealSolution.y = this.game.height - 40;
+        revealSolution.anchor.set(1, 0);
+        revealSolution.font = 'Arial';
+        revealSolution.fontSize = 20;
+        revealSolution.fill = '#FFFFFF';
+        revealSolution.stroke = '#000000';
+        revealSolution.strokeThickness = 3;
+        revealSolution.x = this.game.width - 30
+        revealSolution.inputEnabled = true;
+        revealSolution.input.useHandCursor = true;
+
+        revealSolution.events.onInputDown.add(()=>{
+            revealSolution.fill = '#000000';
+            revealSolution.stroke = '#FFFFFF';
+            this.highlightSolution();
+
+        })
+        revealSolution.events.onInputUp.add(()=>{
+            revealSolution.fill = '#FFFFFF';
+            revealSolution.stroke = '#000000';
+        })
     }
 
     playAudio(word)
@@ -305,7 +342,7 @@ class Main {
         wordFeature.add(translation);
         wordFeature.add(playAudio);
         wordFeature.x = this.game.width - 235;
-        wordFeature.y = 55;
+        wordFeature.y = 90;
         wordFeature.visible = false;
 
         return wordFeature;
@@ -328,14 +365,6 @@ class Main {
         this.playAudio(text.data.word);
     }
 
-
-    render()
-    {
-        this.words.forEach((word)=>{
-            this.game.debug.body(this.wordList[word], "red", false);
-        })
-
-    }
 
     /**
      * Draws the selection line, showing which letter tiles are being selected.
@@ -425,8 +454,6 @@ class Main {
      */
     highlightCorrectWord (result) {
 
-        var _this = this;
-
         //  result contains the sprites of the letters, the word, etc.
         const word = this.wordList[result.word]
 
@@ -434,8 +461,8 @@ class Main {
 
         this.selectFeatureWord(word.text);
         
-        result.letters.forEach(function(letter) {
-            letter.tint = _this.highlightTint;
+        result.letters.forEach((letter) => {
+            letter.tint = this.highlightTint;
         });
 
     }
@@ -493,6 +520,65 @@ class Main {
 
     }
 
+    highlightSolution () {
+        this.solution.forEach((entry)=>{
+            let x = entry.x;
+            let y = entry.y;
+            let orientation = entry.orientation;
+
+            entry.wordSplit.forEach((word, index)=>{
+                
+                if(index > 0)
+                {
+                    switch(orientation)
+                    {
+                        case 'horizontal':{
+                           x = x + 1;
+                           break;
+                        }
+                        case 'horizontalBack':{
+                            x = x - 1;
+                            break;
+                        }
+                        case 'vertical':{
+                            y = y + 1;
+                            break;
+                        }
+                        case 'verticalUp':{
+                            y = y - 1;
+                            break;
+                        }
+                        case 'diagonal':{
+                            x = x + 1;
+                            y = y + 1;
+                            break;
+                        }
+                        case 'diagonalUp':{
+                            x = x + 1;
+                            y = y - 1;
+                            break;
+                        }
+                        case 'diagonalUpBack':{
+                            x = x - 1;
+                            y - y - 1;
+                            break;
+                        }
+                        case 'diagonalBack':{
+                            x = x - 1;
+                            y = y + 1;
+                        }
+
+                    }
+                }
+
+                let tileIndex = (y * this.puzzleWidth) + x;
+                let tile = this.grid.getChildAt(tileIndex);            
+                tile.tint = this.highlightTint;
+
+            });
+        })
+    }
+
     //  From this point on, all of the functions deal with checking the letters,
     //  getting selected letters, and checking for word matching. There is no
     //  display related code in any of the following, it's all game logic.
@@ -535,7 +621,6 @@ class Main {
         if (first.row === last.row)
         {
             //  Vertical grab
-
             top = Math.min(first.column, last.column);
             bottom = Math.max(first.column, last.column);
 

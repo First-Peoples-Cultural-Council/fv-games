@@ -9,7 +9,8 @@ let defaultGameConfig = {
         preloaderLogo:'assets/images/logo.png',
         tile:'assets/images/tile.png',
         playAudio:'assets/images/play_audio.png',
-        background:'assets/images/background.png'
+        background:'assets/images/background.png',
+        title:'assets/images/title.png'
     },
 
     letters:[],
