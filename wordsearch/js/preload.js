@@ -33,6 +33,7 @@ class Preload {
         this.load.image('playAudio',config.images.playAudio);
         this.load.image('background',config.images.background);
         this.load.image('title', config.images.title);
+        this.load.image('welldone', config.images.welldone);
 
         config.words.forEach((word)=>{
             this.load.audio(word.word, word.audio);

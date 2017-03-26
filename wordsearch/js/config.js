@@ -10,7 +10,8 @@ let defaultGameConfig = {
         tile:'assets/images/tile.png',
         playAudio:'assets/images/play_audio.png',
         background:'assets/images/background.png',
-        title:'assets/images/title.png'
+        title:'assets/images/title.png',
+        welldone:'assets/images/well-done.png'
     },
 
     letters:[],

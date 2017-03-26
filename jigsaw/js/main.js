@@ -49,7 +49,6 @@ class Main {
     {
         this.fadeIn();
 
-
         //  The background wood texture
         this.add.sprite(0, 0, 'wood');
 

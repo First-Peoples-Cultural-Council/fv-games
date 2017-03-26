@@ -42,11 +42,8 @@ class Main {
         this.endLetter = null;
 
         this.foundWords = [];
-
         this.featureWord = null;
-
         this.mapWords();
-
     }
 
     mapWords()
@@ -164,12 +161,11 @@ class Main {
             y += this.tileHeight;
 
         });
+
         const graphics = this.add.graphics(0, 0);
         graphics.lineStyle(4, 0x000000, 1);
         graphics.moveTo(30, this.game.height - 55);
         graphics.lineTo(this.game.width - 30, this.game.height - 55);
-
-
 
         //  Flag all of the starting letters in the grid
         this.solution.forEach((entry) => {
@@ -209,8 +205,16 @@ class Main {
             
             //  One BitmapText per word (so we can change their color when found)            
             let textGroup = this.make.group();
-            let wordText = this.make.text(0,0, word.word, { font: "bold 25px Arial", autoUpperCase:true, fill: "#FFFFFF" });
+            let wordText = this.make.text(0,0, word.word);
+            wordText.font = 'Arial';
+            wordText.fontSize = 25;
+            wordText.fill = '#FFFFFF';
+            wordText.stroke = '#000000';
+            wordText.strokeThickness = 3;
+
+
             let translatedText = this.make.text(0,30, `${translation}`, { font: "bold 15px Arial", autoUpperCase:true, fill: "#000000" });
+   
 
             textGroup.add(wordText);
             textGroup.add(translatedText);
@@ -245,9 +249,16 @@ class Main {
 
         this.drawLine = this.add.graphics(0, 0);
         this.input.addMoveCallback(this.updateDrawLine, this);
+
+        //  The Well Done sprite that appears on completion
+        this.wellDone = this.add.sprite(0, 0, 'welldone');
+        this.wellDone.centerX = this.world.centerX;
+        this.wellDone.visible = false;
+
         // this.fadeIn();
         this.createRestartButton();
         this.createRevealSolution();
+
     }
 
     createRestartButton()
@@ -295,11 +306,12 @@ class Main {
             revealSolution.stroke = '#FFFFFF';
             this.highlightSolution();
 
-        })
+        });
+
         revealSolution.events.onInputUp.add(()=>{
             revealSolution.fill = '#FFFFFF';
             revealSolution.stroke = '#000000';
-        })
+        });
     }
 
     playAudio(word)
@@ -516,7 +528,9 @@ class Main {
      */
     gameWon () {
 
-        //  They've matched every word!
+        this.wellDone.y = 0;
+        this.wellDone.visible = true;
+        var tween = this.add.tween(this.wellDone).to({ y: 250 }, 1500, "Bounce.easeOut", true);
 
     }
 

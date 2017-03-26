@@ -94,51 +94,54 @@ class GameTitle {
         title.resolution = 2;
 
 
-
-        var nextPage = this.add.image(this.game.width - 50, this.game.height - 30 ,'arrow');
-        nextPage.anchor.setTo(0.5)
-        nextPage.inputEnabled = true;
-        nextPage.input.useHandCursor = true;
-        nextPage.events.onInputUp.add(()=>{
-            if(this.page < this.maxPage)
-            {
-                this.page++;
-                const pagePosition = (this.page )
-                var test = this.thumbnails.getAt((this.page * 4));
-                this.add.tween(this.thumbnails).to({x:-(test.x) + 65},1200, Phaser.Easing.Elastic.Out, true);
-                this.previousPageButton.visible = true;
-
-                if(this.page >= this.maxPage)
+        if(this.maxPage > 0)
+        {
+            var nextPage = this.add.image(this.game.width - 50, this.game.height - 30 ,'arrow');
+            nextPage.anchor.setTo(0.5)
+            nextPage.inputEnabled = true;
+            nextPage.input.useHandCursor = true;
+            nextPage.events.onInputUp.add(()=>{
+                if(this.page < this.maxPage)
                 {
-                    this.nextPageButton.visible = false;
-                }
-            } 
-        });
+                    this.page++;
+                    const pagePosition = (this.page )
+                    var test = this.thumbnails.getAt((this.page * 4));
+                    this.add.tween(this.thumbnails).to({x:-(test.x) + 65},1200, Phaser.Easing.Elastic.Out, true);
+                    this.previousPageButton.visible = true;
 
-        var previousPage = this.add.image(50, this.game.height - 30 ,'arrow');
-        previousPage.anchor.setTo(0.5)
-        previousPage.angle = 180;
-        previousPage.inputEnabled = true;
-        previousPage.input.useHandCursor = true;
-        previousPage.visible = false;
-        previousPage.events.onInputUp.add(()=>{
-            if(this.page > 0)
-            {
-                this.page--;
-                const pagePosition = (this.page )
-                var test = this.thumbnails.getAt((this.page * 4));
-                this.add.tween(this.thumbnails).to({x:-(test.x) + 65},1200, Phaser.Easing.Elastic.Out, true);
+                    if(this.page >= this.maxPage)
+                    {
+                        this.nextPageButton.visible = false;
+                    }
+                } 
+            });
 
-                if(this.page === 0)
+            var previousPage = this.add.image(50, this.game.height - 30 ,'arrow');
+            previousPage.anchor.setTo(0.5)
+            previousPage.angle = 180;
+            previousPage.inputEnabled = true;
+            previousPage.input.useHandCursor = true;
+            previousPage.visible = false;
+            previousPage.events.onInputUp.add(()=>{
+                if(this.page > 0)
                 {
-                    this.previousPageButton.visible = false;
-                    this.nextPageButton.visible = true;
-                }
-            } 
-        });
+                    this.page--;
+                    const pagePosition = (this.page )
+                    var test = this.thumbnails.getAt((this.page * 4));
+                    this.add.tween(this.thumbnails).to({x:-(test.x) + 65},1200, Phaser.Easing.Elastic.Out, true);
 
-        this.previousPageButton = previousPage;
-        this.nextPageButton = nextPage;
+                    if(this.page === 0)
+                    {
+                        this.previousPageButton.visible = false;
+                        this.nextPageButton.visible = true;
+                    }
+                } 
+            });
+
+            this.previousPageButton = previousPage;
+            this.nextPageButton = nextPage;
+
+        }
 
     }
 
