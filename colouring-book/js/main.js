@@ -163,6 +163,7 @@ class Main {
         //  the fill color is loaded somehow.
         this.swatch = this.add.bitmapData();
         this.swatch.load('swatch');
+        this.swatch.update();
 
         var swatchContainer = this.swatch.addToWorld();
 
@@ -189,15 +190,16 @@ class Main {
 
         if (pointer.y <= 60)
         {
-            var x = pointer.x;
-            var y = pointer.y;
+            var x = Math.round(pointer.x);
+            var y = Math.round(pointer.y);
+
 
             //  Get the color from the swatch
             var pixel = this.swatch.getPixel32(x, y);
 
             //  Use this function to normalize between big and little endian
             this.color = Phaser.Color.unpackPixel(pixel);
-
+            
             //  And update the swatch color selection marker
             this.selectedColor.x = this.math.snapToFloor(x, this.swatchColorWidth);
 
