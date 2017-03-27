@@ -12,10 +12,9 @@ class GameTitle {
 
     create()
     {
-        const sprite = this.add.sprite(0, 0, 'wood');
-        sprite.alpha = 0.7
+        const sprite = this.add.sprite(0, 0, 'background');
+        sprite.scale.setTo(0.5);
         this.createThumbnails();
-        this.fadeIn();
     }
 
     createThumbnails()
@@ -36,7 +35,7 @@ class GameTitle {
             thumb.height = 300 * (thumbHeight / thumbWidth)
             thumb.inputEnabled = true;
             thumb.input.useHandCursor = true;
-            thumb.data = { width: 3, height: 3, img: word.pictureKey };
+            thumb.data = { width: 3, height: 3, img: word.pictureKey, word };
 
             const thumbShadow = this.make.image(0,0,word.pictureKey);
             thumbShadow.width = thumb.width;
@@ -62,7 +61,7 @@ class GameTitle {
 
 
             const border = this.make.graphics(0, 0);
-            border.lineStyle(4, 0x000000, 1);
+            border.lineStyle(4, 0xFFFFFF, 1);
             border.drawRect(0,0, thumb.width,thumb.height);
 
             thumbGroup.add(thumbShadow);
@@ -82,10 +81,14 @@ class GameTitle {
         this.thumbnails.y = 40;
         this.thumbnails.child
 
-            //  One BitmapText per word (so we can change their color when found)
-        var style = { font: "bold 28px Arial", autoUpperCase:true, fill: "#FFFFFF" };
         //  One BitmapText per word (so we can change their color when found)
-        var title = this.add.text(0,0, 'Choose a Puzzle', style);
+        var title = this.add.text(0,0, 'Choose a Puzzle');
+        title.anchor.set(0, 0);
+        title.font = 'Arial';
+        title.fontSize = 35;
+        title.fill = '#FFFFFF';
+        title.stroke = '#000000';
+        title.strokeThickness = 3;
         title.anchor.x = 0.5;
         title.anchor.y = 0.5;
         title.x = this.game.width / 2;
@@ -145,31 +148,12 @@ class GameTitle {
 
     }
 
-    nextPage()
-    {
-
-    }
-    fadeIn()
-    {
-        var fadeBackground = this.game.add.graphics(0, 0);
-        fadeBackground.beginFill(0xFFFFFF, 1);
-        fadeBackground.drawRect(0, 0, this.game.width, this.game.height);
-        fadeBackground.alpha = 1;
-        fadeBackground.endFill();
-
-        const backgroundTween = this.game.add.tween(fadeBackground);
-        backgroundTween.to({ alpha: 0 }, 500, null);
-        backgroundTween.start();
-    }
-
-
-
 
     selectThumb(thumbnail)
     {
         var data = thumbnail.data;
         this.thumbnails.destroy();
-        this.state.start("Main", true, false, data);
+        this.state.start("DifficultySelect", true, false, data);
     }
 }
 

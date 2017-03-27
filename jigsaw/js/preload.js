@@ -30,10 +30,12 @@ class Preload {
         this.game.load.setPreloadSprite(this.loadingBar);
 
         this.load.script('jigsaw', config.libs.bitmapJigsawScript);
-
-        this.load.image('wood', config.images.backgroundImage);
-
+        this.load.image('background', config.images.backgroundImage);
         this.load.image('wellDone', config.images.youWin);
+        this.load.image('easy', config.images.easy);
+        this.load.image('medium', config.images.medium);
+        this.load.image('hard', config.images.hard);
+
 
         config.words.forEach((word, index)=>{
 

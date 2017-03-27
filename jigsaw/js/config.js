@@ -7,13 +7,16 @@ let defaultGameConfig = {
     images:{
         preloaderLoading:'assets/images/loading.png',
         preloaderLogo:'assets/images/logo.png',
-        backgroundImage:'assets/images/wood.jpg',
+        backgroundImage:'assets/images/background.png',
         youWin:'assets/images/well-done.png',
         cornerTopLeft:'assets/images/corner1a.png',
         cornerTopRight:'assets/images/corner1b.png',
         cornerBottomLeft:'assets/images/corner1c.png',
         cornerBottomRight:'assets/images/corner1d.png',
-        arrow:'assets/images/blue_arrow.png'
+        arrow:'assets/images/blue_arrow.png',
+        easy:'assets/images/easy.png',
+        medium:'assets/images/medium.png',
+        hard:'assets/images/hard.png'
     },
 
     words:[

@@ -9,10 +9,6 @@ class Main {
         };
 
         this.image = data.img;
-
-        this.puzzleWidth = data.width;
-        this.puzzleHeight = data.height;
-
         this.lineWidth = 3;
         this.lineStyle = 'rgba(255, 255, 255, 0.7)';
 
@@ -42,7 +38,33 @@ class Main {
         this.wellDone = null;
 
         this.action = this.states.SELECTING;
+        this.data = data;
+        this.setDifficulty();
 
+    }
+
+    setDifficulty()
+    {
+        const data = this.data;
+
+        switch(data.difficulty)
+        {
+            case 'easy':{
+                this.puzzleWidth = 3;
+                this.puzzleHeight = 3;
+                break;
+            }
+            case 'medium':{
+                this.puzzleWidth = 6;
+                this.puzzleHeight = 6;
+                break;
+            }
+            case 'hard':{
+                this.puzzleWidth = 8;
+                this.puzzleHeight = 8;
+                break;
+            }
+        }
     }
 
     create()
@@ -50,7 +72,9 @@ class Main {
         this.fadeIn();
 
         //  The background wood texture
-        this.add.sprite(0, 0, 'wood');
+        var background = this.add.sprite(0, 0, 'background');
+
+        background.scale.setTo(0.5);
 
         //  The BitmapData that contains the selected image.
         var bmd = this.make.bitmapData();
@@ -147,8 +171,56 @@ class Main {
 
         //  Start the event handler going
         this.pieces.onChildInputDown.add(this.selectPiece, this);
-
         this.action = this.states.SELECTING;
+
+        this.createBackButton();
+        this.createWords();
+    }
+    createWords()
+    {
+        
+        const word = this.add.text(0,0,this.data.word.word);
+        word.anchor.set(0.5);
+        word.font = 'Arial';
+        word.fontSize = 20;
+        word.fill = '#000000';
+        word.stroke = '#FFFFFF';
+        word.strokeThickness = 3;
+        word.x = this.game.width / 2;
+        word.y = 35;
+        word.resolution = 2;
+
+        const translation = this.add.text(0,0,this.data.word.translation);
+        translation.anchor.set(0.5);
+        translation.font = 'Arial';
+        translation.fontSize = 20;
+        translation.fill = '#000000';
+        translation.stroke = '#FFFFFF';
+        translation.strokeThickness = 3;
+        translation.x = this.game.width / 2;
+        translation.y = this.game.height - 20;;
+        translation.resolution = 2;
+    }
+
+    createBackButton()
+    {
+        const back = this.add.text(0,0,'Back');
+        back.anchor.set(0, 0);
+        back.font = 'Arial';
+        back.fontSize = 20;
+        back.fill = '#FFFFFF';
+        back.stroke = '#000000';
+        back.strokeThickness = 3;
+        back.x = 20;
+        back.y = 10;
+        back.inputEnabled = true;
+        back.input.useHandCursor = true;
+        back.events.onInputDown.add(()=>{
+            back.fill = '#000000';
+            back.stroke = '#FFFFFF';
+            this.state.start('GameTitle');
+        })
+        back.resolution = 2;
 
     }
 
@@ -281,9 +353,10 @@ class Main {
             //  Tween in our 'Well Done' sprite.
             this.wellDone.y = 0;
             this.wellDone.visible = true;
+            var audio = this.add.audio(this.data.word.audioKey);
+            audio.play();
 
             var tween = this.add.tween(this.wellDone).to({ y: 250 }, 1500, "Bounce.easeOut", true);
-
             tween.onComplete.addOnce(this.puzzleComplete, this);
         }
         else
@@ -309,7 +382,7 @@ class Main {
     }
 
     chooseNewPuzzle () {
-        this.state.start('GameTitle');
+        this.state.start('GameTitle', true);
     }
 
     /**
@@ -347,7 +420,7 @@ class Main {
 
     gameOver()
     {
-        this.game.state.start("GameOver");
+        this.game.state.start("GameOver", true);
     }
 }
 

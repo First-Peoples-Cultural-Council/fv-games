@@ -6,6 +6,7 @@ import Preload from './js/preload';
 import GameTitle from './js/gametitle';
 import Main from './js/main';
 import GameOver from './js/gameover';
+import DifficultySelect from './js/difficulty';
 import GameConfig from './js/config';
 
 
@@ -27,6 +28,7 @@ export default {
             game.state.add("GameTitle", GameTitle);
             game.state.add("Main", Main);
             game.state.add("GameOver", GameOver);
+            game.state.add("DifficultySelect", DifficultySelect);
             game.state.start("Boot");
         }
     },
