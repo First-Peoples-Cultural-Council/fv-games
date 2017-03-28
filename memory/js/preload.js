@@ -28,13 +28,15 @@ class Preload {
         this.load.setPreloadSprite(this.loadingBar);
 
         this.load.image('card', this.config.images.card);
-        this.load.image('card_flipped', this.config.images.card_flipped);
+        this.load.image('cardFlipped', this.config.images.cardFlipped);
         this.load.image('background', this.config.images.background);
         this.load.image('title', this.config.images.title);
         this.load.image('time', this.config.images.time);
+        this.load.image('wellDone', this.config.images.wellDone);
 
         this.config.cards.map((card)=>{
             this.load.image(card.image, card.image);
+            this.load.audio(card.audio, card.audio);
         });
     }
 

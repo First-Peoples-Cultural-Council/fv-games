@@ -5,9 +5,10 @@ let defaultGameConfig = {
         preloaderLogo:'assets/images/logo.png',
         background:'assets/images/background.png',
         card:'assets/images/card.png',
-        card_flipped:'assets/images/card_flipped.png',
+        cardFlipped:'assets/images/card_flipped.png',
         title:'assets/images/title.png',
-        time:'assets/images/time.png'
+        time:'assets/images/time.png',
+        wellDone:'assets/images/well-done.png'
     },
 
     cards:[

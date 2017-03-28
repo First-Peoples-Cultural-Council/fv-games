@@ -16,9 +16,18 @@ class Main {
         this.fadeIn();
         this.game.add.sprite(0,0,'background');
         this.allCards = this.add.group();
+        this.complete = false;
+
+        //  The Well Done sprite that appears on completion
+        this.wellDone = this.add.sprite(0, 0, 'wellDone');
+        this.wellDone.centerX = this.world.centerX;
+        this.wellDone.visible = false;
+
         this.createCards();
         this.createTitle();
         this.createTimer();
+        this.createFooter();
+
     }
 
     createTitle()
@@ -39,6 +48,50 @@ class Main {
         this.timeTitle.x = 150;
         this.timeTitle.y = 600;     
         this.startTime = Date.now();
+    }
+
+    createFooter()
+    {
+        const graphics = this.add.graphics(0, 0);
+        graphics.lineStyle(4, 0xFFFFFF, 1);
+        graphics.moveTo(30, this.game.height - 45);
+        graphics.lineTo(this.game.width - 30, this.game.height - 45);   
+        this.createTextButton(80, this.game.height - 20, 'Restart', this.restart.bind(this));
+        this.createTextButton(this.game.width - 110, this.game.height - 20, 'Reveal Cards', this.solve.bind(this));
+    }
+
+    restart()
+    {
+        this.game.state.restart(true);
+    }
+
+    solve()
+    {
+        this.complete = true;
+        this.allCards.callAll('flipCard');
+    }
+
+    createTextButton(x,y,text,onClick)
+    {
+        let button = this.add.text(x,y, text);
+        button.anchor.set(0.5);
+        button.font = 'Arial';
+        button.fontSize = 25;
+        button.fill = '#000000';
+        button.stroke = '#FFFFFF';
+        button.strokeThickness = 4;
+        button.inputEnabled = true;
+        button.input.useHandCursor = true;
+        button.resolution = 2;
+
+        button.events.onInputDown.add(()=>{
+            button.scale.setTo(1.1);
+            onClick();
+        })
+        
+        button.events.onInputUp.add(()=>{
+            button.scale.setTo(1);
+        })         
     }
 
     shuffleCards()
@@ -65,7 +118,7 @@ class Main {
         cardSprite.anchor.setTo(0.5,0.5);
         cardSprite.events.onInputDown.add(this.chooseCard.bind(this, card));
         
-        const cardFlipped = this.game.make.sprite(0,0,'card_flipped');
+        const cardFlipped = this.game.make.sprite(0,0,'cardFlipped');
         cardFlipped.anchor.setTo(0.5,0.5);
         cardFlipped.visible = false;
 
@@ -96,13 +149,13 @@ class Main {
         card.add(cardFlipped);
         card.add(cardContents);
 
-
+        card.showing = false;
         card.cardContents = cardContents;
         card.unflippedCardImage = cardSprite;
         card.flippedCardImage = cardFlipped;
         card.cardData = cardData;
-
-        
+        card.flipCardBack = this.flipCardBack.bind(this, card);
+        card.flipCard = this.flipCard.bind(this, card);
         return card;
     }
 
@@ -111,33 +164,21 @@ class Main {
     {
         if(this.wait === false)
         {
-            const tween = this.game.add.tween(card.scale);
-            tween.to({x:0}, 500, Phaser.Easing.Cubic.InOut);
-            tween.onComplete.addOnce(this.showCard.bind(this,card));
-            tween.start();
             this.wait = true;
-
-            if(this.firstCardChoice === false)
-            {
-                this.firstCardChoice = card;
-            }
-            else if(this.secondCardChoice === false)
-            {
-                this.secondCardChoice = card;
-            }
+            card.flipCard();
         }
     }
 
-    showCard(card)
-    {
-        card.unflippedCardImage.visible = false;
-        card.flippedCardImage.visible = true;
-        card.cardContents.visible = true;
 
-        const tween = this.game.add.tween(card.scale);
-        tween.to({x:1}, 500, Phaser.Easing.Cubic.InOut);
-        tween.onComplete.addOnce(this.checkCards.bind(this, card));
-        tween.start();
+    flipCard(card)
+    {
+        if(card.showing === false)
+        {
+            const tween = this.game.add.tween(card.scale);
+            tween.to({x:0}, 500, Phaser.Easing.Cubic.InOut);
+            tween.onComplete.addOnce(this.showCard.bind(this,card));
+            tween.start(); 
+        }     
     }
 
     flipCardBack(card)
@@ -148,11 +189,25 @@ class Main {
         tween.start();
     }
 
+    showCard(card)
+    {
+        card.unflippedCardImage.visible = false;
+        card.flippedCardImage.visible = true;
+        card.cardContents.visible = true;
+        card.showing = true;
+
+        const tween = this.game.add.tween(card.scale);
+        tween.to({x:1}, 500, Phaser.Easing.Cubic.InOut);
+        tween.onComplete.addOnce(this.checkCards.bind(this, card));
+        tween.start();
+    }
+
     hideCard(card)
     {
         card.unflippedCardImage.visible = true;
         card.flippedCardImage.visible = false;
         card.cardContents.visible = false;
+        card.showing = false;
 
         const tween = this.game.add.tween(card.scale);
         tween.to({x:1}, 500, Phaser.Easing.Cubic.InOut);
@@ -161,23 +216,51 @@ class Main {
 
     checkCards(card)
     {
-        if(this.firstCardChoice !== false && this.secondCardChoice !== false)
+        if(this.complete === false)
         {
-            if(this.firstCardChoice.cardData.word === this.secondCardChoice.cardData.word)
+            if(this.firstCardChoice === false)
             {
-                //Play and do things
+                this.firstCardChoice = card;
             }
-            else
+            else if(this.secondCardChoice === false)
             {
-                this.flipCardBack(this.firstCardChoice);
-                this.flipCardBack(this.secondCardChoice);
+                this.secondCardChoice = card;
+            }
+
+            if(this.firstCardChoice !== false && this.secondCardChoice !== false)
+            {
+                if(this.firstCardChoice.cardData.word === this.secondCardChoice.cardData.word)
+                {
+                    const audio = this.game.add.audio(this.firstCardChoice.cardData.audio);
+                    audio.play();
+                }
+                else
+                {
+                    this.firstCardChoice.flipCardBack();
+                    this.secondCardChoice.flipCardBack();
+                }
+                
+                this.firstCardChoice = false;
+                this.secondCardChoice = false;
+            }
+
+            let complete = true;
+            this.allCards.forEach((card)=>{
+               if(card.showing === false)
+               {
+                   complete = false;
+               }
+            })
+
+            if(complete)
+            {
+                this.complete = true;
+                this.gameWon();
             }
             
-            this.firstCardChoice = false;
-            this.secondCardChoice = false;
+            this.wait = false;
         }
 
-        this.wait = false;
     }
 
     createCards()
@@ -188,11 +271,17 @@ class Main {
 
         this.allCards.align(5, 3, 135, 207, Phaser.CENTER);
         this.allCards.x = 65;
-        this.allCards.y = 150;
+        this.allCards.y = 130;
     }
 
-    update() {  
-        this.updateTimer();
+
+
+    update() 
+    {  
+        if(this.complete === false)
+        {
+            this.updateTimer();
+        }
     }
     
     updateTimer() 
@@ -219,6 +308,13 @@ class Main {
         time = minutes + ':' + seconds;
     
         this.timer.setText(time);
+    }
+
+    gameWon () 
+    {
+        this.wellDone.y = 0;
+        this.wellDone.visible = true;
+        var tween = this.add.tween(this.wellDone).to({ y: 250 }, 1500, "Bounce.easeOut", true);
     }
 
     fadeIn()
