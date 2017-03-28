@@ -36,5 +36,6 @@ export default {
         game.destroy();
         game = false;
 
-    }
+    } 
 }
+ 
