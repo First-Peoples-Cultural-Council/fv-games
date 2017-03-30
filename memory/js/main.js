@@ -27,7 +27,40 @@ class Main {
         this.createTitle();
         this.createTimer();
         this.createFooter();
+    }
 
+    shuffleCards()
+    {
+        let cards = this.sampleCards(this.config.cards, 5);
+
+        cards = cards.concat(cards.slice(0));
+
+        for (let i = cards.length; i; i--) 
+        {
+            let j = Math.floor(Math.random() * i);
+            [cards[i - 1], cards[j]] = [cards[j], cards[i - 1]];
+        }
+
+        return cards;
+    }
+
+
+    sampleCards(cards, n) 
+    {
+        const result = [];
+
+        cards = cards.slice(0);
+
+        for(let i = 0; i < n; i++)
+        {
+            const cardsCount = cards.length;
+            const randomIndex = Math.floor(Math.random() * (cardsCount));
+            const card = cards.splice(randomIndex, 1);
+                    
+            result.push(card[0]);
+        }
+
+        return result;      
     }
 
     createTitle()
@@ -56,7 +89,7 @@ class Main {
         graphics.lineStyle(4, 0xFFFFFF, 1);
         graphics.moveTo(30, this.game.height - 45);
         graphics.lineTo(this.game.width - 30, this.game.height - 45);   
-        this.createTextButton(80, this.game.height - 20, 'Restart', this.restart.bind(this));
+        this.createTextButton(80, this.game.height - 20, 'New Puzzle', this.restart.bind(this));
         this.createTextButton(this.game.width - 110, this.game.height - 20, 'Reveal Cards', this.solve.bind(this));
     }
 
@@ -94,19 +127,6 @@ class Main {
         })         
     }
 
-    shuffleCards()
-    {
-        let cards = this.config.cards.slice(0);
-        cards = cards.concat(cards.slice(0));
-
-        for (let i = cards.length; i; i--) 
-        {
-            let j = Math.floor(Math.random() * i);
-            [cards[i - 1], cards[j]] = [cards[j], cards[i - 1]];
-        }
-
-        return cards;
-    }
 
     createCard(cardData)
     {
@@ -136,7 +156,7 @@ class Main {
         word.anchor.setTo(0.5);
         word.y = -65;
 
-        const translation = this.game.make.text(0,0,cardData.translation,{ font: "12px Arial", fill: "#FFFFFF", align: "center" });
+        const translation = this.game.make.text(0,0,cardData.translation,{ font: "12px Arial", fill: "#FFFFFF", align: "center", wordWrap: true, wordWrapWidth: 150 });
         translation.anchor.setTo(0.5);
         translation.y = 65;
 

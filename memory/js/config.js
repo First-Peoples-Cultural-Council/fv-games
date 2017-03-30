@@ -14,7 +14,7 @@ let defaultGameConfig = {
     cards:[
         {
             word:'Word 1',
-            translation:'english translation',
+            translation:'english translation long sentence',
             image:'assets/images/example/1.png',
             audio:'assets/sounds/sample.mp3'
         },
@@ -38,6 +38,36 @@ let defaultGameConfig = {
         },
         {
             word:'Word 5',
+            translation:'english translation',
+            image:'assets/images/example/5.png',
+            audio:'assets/sounds/sample.mp3'
+        },
+        {
+            word:'Word 6',
+            translation:'english translation',
+            image:'assets/images/example/1.png',
+            audio:'assets/sounds/sample.mp3'
+        },
+        {
+            word:'Word 7',
+            translation:'english translation',
+            image:'assets/images/example/2.png',
+            audio:'assets/sounds/sample.mp3'
+        },
+        {
+            word:'Word 8',
+            translation:'english translation',
+            image:'assets/images/example/3.png',
+            audio:'assets/sounds/sample.mp3'
+        },
+        {
+            word:'Word 9',
+            translation:'english translation',
+            image:'assets/images/example/4.png',
+            audio:'assets/sounds/sample.mp3'
+        },
+        {
+            word:'Word 10',
             translation:'english translation',
             image:'assets/images/example/5.png',
             audio:'assets/sounds/sample.mp3'
