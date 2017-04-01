@@ -29,13 +29,12 @@ class GameTitle {
             const thumbGroup = this.make.group();
 
             const thumb = this.make.image(0,0,word.pictureKey);
-            const thumbWidth = thumb.width;
-            const thumbHeight = thumb.height;
             thumb.width = 300;
             thumb.height = 175;
             thumb.inputEnabled = true;
             thumb.input.useHandCursor = true;
             thumb.data = { width: 3, height: 3, img: word.pictureKey, word };
+            thumb.anchor.setTo(0.5);
 
             const thumbShadow = this.make.image(0,0,word.pictureKey);
             thumbShadow.width = thumb.width;
@@ -44,43 +43,31 @@ class GameTitle {
             thumbShadow.alpha = 0.6;
             thumbShadow.x = 5;
             thumbShadow.y = 5;
-
-            var wordText = this.game.add.text(0, 0, word.word, { font: "bold 30px Arial", fill: "#ffffff", align: "center"});
-            wordText.anchor.set(0.5);
-            wordText.x = thumb.width / 2;
-            wordText.y = thumb.height / 2;
-            wordText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-            wordText.resolution = 2;
-
-            var translationText = this.game.add.text(0, 0, word.translation, { font: "bold 20px Arial", fill: "#ffffff", align: "center"});
-            translationText.anchor.set(0.5);
-            translationText.x = thumb.width / 2;
-            translationText.y = thumb.height / 2 + 30;
-            translationText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
-            translationText.resolution = 2;
+            thumbShadow.anchor.setTo(0.5);
+            
 
 
             const border = this.make.graphics(0, 0);
             border.lineStyle(4, 0xFFFFFF, 1);
-            border.drawRect(0,0, thumb.width,thumb.height);
+            border.drawRect(-(thumb.width/2),-(thumb.height/2), thumb.width,thumb.height);
 
+            
             thumbGroup.add(thumbShadow);
             thumbGroup.add(thumb);
-            thumbGroup.add(wordText);
-            thumbGroup.add(translationText);
+            // thumbGroup.add(wordText);
+            // thumbGroup.add(translationText);
             thumbGroup.add(border);
 
 
+
             thumbGroup.onChildInputUp.add(this.selectThumb, this);
-
-
             this.thumbnails.add(thumbGroup);
         }); 
 
         this.thumbnails.align(Math.round(words.length / 2), 2, 375, 250, Phaser.BOTTOM_LEFT);
         this.thumbnails.x = 65;
         this.thumbnails.y = 40;
-        this.thumbnails.child
+
 
         //  One BitmapText per word (so we can change their color when found)
         var title = this.add.text(0,0, 'Choose a Puzzle');
