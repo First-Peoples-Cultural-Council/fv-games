@@ -32,7 +32,7 @@ class GameTitle {
             const thumbWidth = thumb.width;
             const thumbHeight = thumb.height;
             thumb.width = 300;
-            thumb.height = 300 * (thumbHeight / thumbWidth)
+            thumb.height = 175;
             thumb.inputEnabled = true;
             thumb.input.useHandCursor = true;
             thumb.data = { width: 3, height: 3, img: word.pictureKey, word };
@@ -72,6 +72,7 @@ class GameTitle {
 
 
             thumbGroup.onChildInputUp.add(this.selectThumb, this);
+
 
             this.thumbnails.add(thumbGroup);
         }); 

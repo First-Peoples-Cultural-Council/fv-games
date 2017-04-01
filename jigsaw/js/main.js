@@ -77,10 +77,15 @@ class Main {
         background.scale.setTo(0.5);
 
         //  The BitmapData that contains the selected image.
-        var bmd = this.make.bitmapData();
+        const puzzleImageWidth = 760;
+        const puzzleImageHeight = 505;
 
-        //  Load the image into it.
-        bmd.load(this.image);
+        let puzzleImage = this.cache.getImage(this.image);
+        let bmd = this.make.bitmapData(760, 505);
+        bmd.clear();
+
+        let context = bmd.context;
+        context.drawImage(puzzleImage, 0,0, puzzleImageWidth, puzzleImageHeight);
 
         //  And chop it up! This function will cut the BitmapData up, returning an object full of new
         //  pieces (each one a canvas). You can log out the data object to see its contents.
@@ -175,6 +180,7 @@ class Main {
 
         this.createBackButton();
         this.createWords();
+
     }
     createWords()
     {
