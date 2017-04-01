@@ -34,14 +34,14 @@ let defaultGameConfig = {
         },
         {
             picture:'assets/images/picture3.jpg',
-            word:'Bear',
-            translation:'translation',
+            word:'Bear asd asd s ',
+            translation:'translation ellipsis',
             audio:'assets/sounds/sample.mp3'
         },
         {
             picture:'assets/images/picture4.jpg',
-            word:'Bear',
-            translation:'translation',
+            word:'sezi, nezi, bezi',
+            translation:'my chest, your chest, his_her chest',
             audio:'assets/sounds/sample.mp3'
         },
         {
