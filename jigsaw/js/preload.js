@@ -29,7 +29,6 @@ class Preload {
         this.game.add.existing(this.status);
         this.game.load.setPreloadSprite(this.loadingBar);
         
-        this.load.crossOrigin = "Anonymous"
         this.load.script('jigsaw', config.libs.bitmapJigsawScript);
         this.load.image('background', config.images.backgroundImage);
         this.load.image('wellDone', config.images.youWin);
@@ -37,15 +36,11 @@ class Preload {
         this.load.image('medium', config.images.medium);
         this.load.image('hard', config.images.hard);
 
-
         config.words.forEach((word, index)=>{
-
             word.pictureKey = `puzzle_${index}_picture`;
             word.audioKey = `puzzle_${index}_sound`;
-
             this.load.image(word.pictureKey, word.picture);
             this.load.audio(word.audioKey, [word.audio]);
-            
         });
 
         this.load.images(['corner1a', 'corner1b', 'corner1c', 'corner1d'],[
