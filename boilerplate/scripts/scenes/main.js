@@ -1,4 +1,4 @@
-import configManager from './config';
+import configManager from '../config';
 
 class Main {
 
@@ -6,7 +6,7 @@ class Main {
     {
         this.config = configManager.getConfig();
     }
-  
+
     preload()
     {
 
@@ -25,7 +25,7 @@ class Main {
         backgroundTween.start();
     }
 
-    create () 
+    create ()
     {
         this.fadeIn();
     }

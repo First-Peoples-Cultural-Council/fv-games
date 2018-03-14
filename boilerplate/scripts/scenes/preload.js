@@ -1,4 +1,4 @@
-import configManager from './config';
+import configManager from '../config';
 
 class Preload {
 

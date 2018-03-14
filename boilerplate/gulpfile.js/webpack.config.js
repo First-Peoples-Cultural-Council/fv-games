@@ -1,8 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
 
+const appRootPath = path.join(__dirname, '../');
 // Phaser webpack config
-const phaserModule = path.join(__dirname, '/node_modules/phaser-ce/')
+const phaserModule = path.join(appRootPath, '/node_modules/phaser-ce/')
 const phaser = path.join(phaserModule, 'build/custom/phaser-split.js')
 const pixi = path.join(phaserModule, 'build/custom/pixi.js')
 const p2 = path.join(phaserModule, 'build/custom/p2.js')
@@ -10,11 +11,11 @@ const p2 = path.join(phaserModule, 'build/custom/p2.js')
 
 module.exports = {
     entry:{
-        app:"./entry.js",
+        app: path.resolve(appRootPath,"scripts/entry.js"),
         vendor:['pixi', 'p2', 'phaser']
     },
     output:{
-        path:__dirname + '/www/',
+        path:path.resolve(appRootPath,"www/"),
         filename:"bundle.js"
     },
     plugins:[
@@ -22,8 +23,8 @@ module.exports = {
     ],
     module:{
         rules:[
-            { 
-                test: /\.js$/, exclude: /node_modules/, use: ['babel-loader'] 
+            {
+                test: /\.js$/, exclude: /node_modules/, use: ['babel-loader']
             },
             {
                 test:/\.css$/,

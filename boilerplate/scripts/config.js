@@ -2,9 +2,9 @@ let defaultGameConfig = {
 
     images:{
         preloaderLoading:'assets/images/loading.png',
-        preloaderLogo:'assets/images/logo.png',
+        preloaderLogo:'assets/images/load.png',
     }
-    
+
 };
 
 let gameConfig = {};
