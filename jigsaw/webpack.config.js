@@ -1,12 +1,17 @@
 const path = require('path');
 const webpack = require('webpack');
 
-// Phaser webpack config
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const WriteWebpackPlugin = require('write-file-webpack-plugin');
+
 const phaserModule = path.join(__dirname, '/node_modules/phaser-ce/')
 const phaser = path.join(phaserModule, 'build/custom/phaser-split.js')
 const pixi = path.join(phaserModule, 'build/custom/pixi.js')
 const p2 = path.join(phaserModule, 'build/custom/p2.js')
 
+const publicPath = path.resolve(__dirname, 'www');
+const assetsPath = path.resolve(__dirname,'assets');
 
 module.exports = {
     entry:{
@@ -14,16 +19,21 @@ module.exports = {
         vendor:['pixi', 'p2', 'phaser']
     },
     output:{
-        path:__dirname + '/www/',
-        filename:"bundle.js"
+        path: publicPath,
+        filename:"scripts/[name].[hash].js"
     },
-    plugins:[
-        new webpack.optimize.CommonsChunkPlugin({  name: 'vendor', minChunks: Infinity, filename: 'vendor.bundle.js'})
+    plugins: [
+        new CleanWebpackPlugin([publicPath]),
+        new CopyWebpackPlugin([{
+            from: assetsPath,
+            to: publicPath
+        }]),
+        new WriteWebpackPlugin()
     ],
     module:{
         rules:[
-            { 
-                test: /\.js$/, exclude: /node_modules/, use: ['babel-loader'] 
+            {
+                test: /\.js$/, exclude: /node_modules/, use: ['babel-loader']
             },
             {
                 test:/\.css$/,
