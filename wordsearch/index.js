@@ -14,7 +14,6 @@ export default {
 
     init:(containerElement, config) => {
 
-        
         if(game === false) {
 
             //Set Game Config
