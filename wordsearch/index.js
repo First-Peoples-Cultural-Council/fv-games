@@ -1,39 +1,49 @@
-//Styles
-
-//Scenes
-import Boot from './js/boot';
-import Preload from './js/preload';
-import GameTitle from './js/gametitle';
-import Main from './js/main';
-import GameOver from './js/gameover';
+/**
+ * Scenes
+ */
+import Boot       from './js/boot';
+import Preload    from './js/preload';
+import GameTitle  from './js/gametitle';
+import Main       from './js/main';
+import GameOver   from './js/gameover';
 import GameConfig from './js/config';
 
-let game = false;
 
-export default {
+/**
+ * Game manager creates game instance
+ */
+class WordSearch
+{
+    static game;
 
-    init:(containerElement, config) => {
+    constructor(containerElement, config)
+    {
+        GameConfig.setConfig(config);
 
-        if(game === false) {
-
-            //Set Game Config
-            GameConfig.setConfig(config);
-
-            //Start Game
-            game = new Phaser.Game(800, 900, Phaser.CANVAS, containerElement);
-            game.state.add("Boot", Boot);
-            game.state.add("Preload", Preload);
-            game.state.add("GameTitle", GameTitle);
-            game.state.add("Main", Main);
-            game.state.add("GameOver", GameOver);
-            game.state.start("Boot");
+        if(WordSearch.game)
+        {
+            WordSearch.game.destroy();
         }
-    },
 
-    destroy:() => {
+        const game = new Phaser.Game(800, 900, Phaser.AUTO, containerElement);
+        game.state.add("Boot", Boot);
+        game.state.add("Preload", Preload);
+        game.state.add("GameTitle", GameTitle);
+        game.state.add("Main", Main);
+        game.state.add("GameOver", GameOver);
+        game.state.start("Boot");
 
-        game.destroy();
-        game = false;
+        WordSearch.game = game;
+    }
 
+    destroy()
+    {
+        if(WordSearch.game)
+        {
+            WordSearch.game.destroy();
+            WordSearch.game = null;
+        }
     }
 }
+
+export default WordSearch;

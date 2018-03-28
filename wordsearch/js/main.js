@@ -32,7 +32,20 @@ class Main {
         this.drawLineThickness = 26;
 
         //  A tint applied to the letters when a word is found
-        this.highlightTint = 0x8CAC26;
+        this.highlightTints = [
+            0xB3E0A0,
+            0xC67B33,
+            0xCEF6FC,
+            0x8FA836,
+            0x8B0CE8,
+            0x676768,
+            0xEA8D2A,
+            0xF26129,
+            0x80A0BC,
+            0xF5E663
+        ]
+
+        this.highlightIndex = 0;
 
         //  Booleans to control the game during play
         this.drawLine = null;
@@ -46,12 +59,19 @@ class Main {
         this.mapWords();
     }
 
+    getHighlightColour(){
+
+        this.highlightIndex = ( this.highlightIndex + 1 ) % ( this.highlightTints.length - 1 );
+
+        return this.highlightTints[this.highlightIndex];
+    }
+
     mapWords()
     {
         const wordMap = {};
         const wordsArray = [];
         const words = this.config.words.slice(0,16);
-        
+
         let letters = this.letters;
 
         words.forEach((word)=>{
@@ -90,8 +110,8 @@ class Main {
             context.fillText(letter,tileImageBlockWidth / 2 ,tileImage.height / 2);
             context.fillText(letter,tileImageBlockWidth + (tileImageBlockWidth / 2) ,tileImage.height / 2);
 
-            let letterBitmapData = bitmap.canvas.toDataURL();  
-            
+            let letterBitmapData = bitmap.canvas.toDataURL();
+
             this.load.spritesheet(letter, letterBitmapData, this.tileWidth, this.tileHeight);
         }
 
@@ -170,7 +190,7 @@ class Main {
         //  Flag all of the starting letters in the grid
         this.solution.forEach((entry) => {
             var index = (entry.y * this.puzzleWidth) + entry.x;
-            var tile = this.grid.getChildAt(index);            
+            var tile = this.grid.getChildAt(index);
             tile.data.startWord = true;
             tile.data.words[entry.word] = { orientation: entry.orientation, length: entry.word.length };
         });
@@ -191,19 +211,19 @@ class Main {
 
 
         const wordGroup = this.add.group();
-        
+
         this.solution.forEach((entry)=> {
-            
+
             const word = this.wordMap[entry.word];
-            
+
             let translation = word.translation;
 
             if(translation.length > 20)
             {
                 translation = truncate.apply(translation, [20,true])
             }
-            
-            //  One BitmapText per word (so we can change their color when found)            
+
+            //  One BitmapText per word (so we can change their color when found)
             let textGroup = this.make.group();
             let wordText = this.make.text(0,0, word.word);
             wordText.font = 'Arial';
@@ -212,21 +232,19 @@ class Main {
             wordText.stroke = '#000000';
             wordText.strokeThickness = 3;
 
-
             let translatedText = this.make.text(0,30, `${translation}`, { font: "bold 15px Arial", autoUpperCase:true, fill: "#000000" });
-   
 
             textGroup.add(wordText);
             textGroup.add(translatedText);
             wordGroup.add(textGroup);
-            
+
             wordText.inputEnabled = true;
             wordText.events.onInputDown.add(this.selectFeatureWord,this);
             wordText.data = entry;
             wordText.input.useHandCursor = true;
 
             let wordAudio = this.add.audio(entry.word);
-            
+
             const wordFeature = this.createWordFeature(entry);
 
             this.wordList[entry.word] = {
@@ -284,7 +302,7 @@ class Main {
         restart.events.onInputUp.add(()=>{
             restart.fill = '#FFFFFF';
             restart.stroke = '#000000';
-        })        
+        })
     }
 
     createRevealSolution()
@@ -305,7 +323,6 @@ class Main {
             revealSolution.fill = '#000000';
             revealSolution.stroke = '#FFFFFF';
             this.highlightSolution();
-
         });
 
         revealSolution.events.onInputUp.add(()=>{
@@ -332,7 +349,7 @@ class Main {
         graphics.drawRect(0,0, 200, 200);
 
         let wordTranslation = wordData.translation;
-            
+
         const word = this.make.text(30, 210, wordData.word ,{ font: "bold 25px Arial", autoUpperCase:true, fill: "#FFFFFF"});
         word.inputEnabled = true;
         word.events.onInputUp.add(this.playAudio.bind(this, entry.word));
@@ -371,7 +388,7 @@ class Main {
         const word = this.wordList[text.data.word];
 
         word.wordFeature.visible = true;
-        
+
         this.featureWord = word.wordFeature;
 
         this.playAudio(text.data.word);
@@ -466,15 +483,17 @@ class Main {
      */
     highlightCorrectWord (result) {
 
+        const highlightTint = this.getHighlightColour();
+
         //  result contains the sprites of the letters, the word, etc.
         const word = this.wordList[result.word]
 
-        word.text.tint = this.highlightTint;
+        word.text.tint = highlightTint;
 
         this.selectFeatureWord(word.text);
-        
+
         result.letters.forEach((letter) => {
-            letter.tint = this.highlightTint;
+            letter.tint = highlightTint;
         });
 
     }
@@ -535,13 +554,20 @@ class Main {
     }
 
     highlightSolution () {
-        this.solution.forEach((entry)=>{
+
+        this.solution.forEach((entry, index)=>{
+
+            const highlightTint = this.getHighlightColour();
+
             let x = entry.x;
             let y = entry.y;
             let orientation = entry.orientation;
 
-            entry.wordSplit.forEach((word, index)=>{
-                
+            const word = this.wordList[entry.word];
+            word.text.tint = highlightTint;
+
+            entry.wordSplit.forEach((letter, index)=>{
+
                 if(index > 0)
                 {
                     switch(orientation)
@@ -586,8 +612,13 @@ class Main {
                 }
 
                 let tileIndex = (y * this.puzzleWidth) + x;
-                let tile = this.grid.getChildAt(tileIndex);            
-                tile.tint = this.highlightTint;
+
+                let tile = this.grid.getChildAt(tileIndex);
+
+                if (tile.tint === 16777215 )
+                {
+                    tile.tint = highlightTint;
+                }
 
             });
         })
@@ -734,13 +765,13 @@ class Main {
     checkSelectedLetters () {
 
         var selection = this.getSelectedLetters();
-        
+
         if (selection)
         {
             var starter = (this.firstLetter.data.startWord) ? this.firstLetter.data : this.endLetter.data;
 
             for (var word in starter.words)
-            {   
+            {
                 if (word === selection.word || word === selection.inverse)
                 {
                     return { word: word, letters: selection.letters };
@@ -754,13 +785,13 @@ class Main {
 }
 
 /**
- * Truncate 
+ * Truncate
  */
 function truncate( n, useWordBoundary ){
     if (this.length <= n) { return this; }
     var subString = this.substr(0, n-1);
-    return (useWordBoundary 
-       ? subString.substr(0, subString.lastIndexOf(' ')) 
+    return (useWordBoundary
+       ? subString.substr(0, subString.lastIndexOf(' '))
        : subString) + "...";
 };
 
