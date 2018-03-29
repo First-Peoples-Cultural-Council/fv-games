@@ -14,16 +14,9 @@ import GameConfig from './js/config';
  */
 class WordSearch
 {
-    static game;
-
     constructor(containerElement, config)
     {
         GameConfig.setConfig(config);
-
-        if(WordSearch.game)
-        {
-            WordSearch.game.destroy();
-        }
 
         const game = new Phaser.Game(800, 900, Phaser.AUTO, containerElement);
         game.state.add("Boot", Boot);
@@ -33,15 +26,15 @@ class WordSearch
         game.state.add("GameOver", GameOver);
         game.state.start("Boot");
 
-        WordSearch.game = game;
+        this.game = game;
     }
 
     destroy()
     {
-        if(WordSearch.game)
+        if(this.game)
         {
-            WordSearch.game.destroy();
-            WordSearch.game = null;
+            this.game.destroy();
+            this.game = null;
         }
     }
 }
