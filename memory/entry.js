@@ -1,6 +1,6 @@
-import Wordsearch from './';
+import Memory from './';
 
-document.addEventListener("DOMContentLoaded", function(event) { 
+document.addEventListener("DOMContentLoaded", function(event) {
     const gameContainer = document.getElementById('game');
-    Wordsearch.init(gameContainer,{});
+    Memory.init(gameContainer,{});
 });
