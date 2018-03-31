@@ -93,8 +93,6 @@ class Main {
         {
             let letter = letters[i];
 
-            // let letterLowercase = letter.toLowerCase();
-
             let tileImage = this.cache.getImage('tile');
             let tileImageBlockWidth = tileImage.width / 2;
             let tileImageBlockHeight = tileImage.height / 2;
