@@ -120,6 +120,10 @@ export default {
         gameConfig = Object.assign({}, defaultGameConfig, config, gameConfig);
     },
 
+    reset:() => {
+        gameConfig = {};
+    },
+
     getConfig:() => {
         return gameConfig;
     }

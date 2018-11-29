@@ -32,7 +32,7 @@ export default {
     },
 
     destroy: () => {
-
+        GameConfig.reset();
         game.destroy();
         game = false;
 
